@@ -1,3 +1,8 @@
-pygame
-pytest
+pygame-ce: 2.5.8
+pytest: 9.1.1
 ruff
+torch: 2.13.0+cu126
+torchvision: 0.28.0+cu126
+pyinput: 1.8.2
+pycuda: 2026.1
+numpy: 2.5.2
