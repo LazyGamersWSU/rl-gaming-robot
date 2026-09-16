@@ -1,5 +1,5 @@
-pygame-ce-ce: 2.5.8
-pytest: 9.1.1
+pygame-ce-ce>=2.5.8
+pytest>=9.1.1
 ruff
 torch
 torchvision
