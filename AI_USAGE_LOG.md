@@ -200,3 +200,78 @@ Ruff was run again with:
 ```text
 python -m ruff check .
 ```
+
+## Entry 4: ALE Modification
+* **Date:** September 15, 2026  
+* **Tool Used:** VS Copilot  
+* **Associated Git Issue:** Updating ALE.py file  
+* **Associated Feature Branch:** `feature/RLAgent`
+
+### Exact Prompts Submitted:
+
+> "Can you add an attempt counter in the tetris game"
+
+### AI Output Summary & Code Generated
+I’ll add the attempt number to the visible game display, not just the terminal output. Since ALE’s `human` renderer does not expose a place to draw custom text, I’ll switch the display to a Pygame window that shows the Tetris frame with score and attempt information overlaid.
+
+Read 
+
+The current code already prints `Attempt` below the score in the terminal, but the ALE human window cannot display that custom text. I’m adding a Pygame HUD around the live frame so the attempt counter and current score are visible while the bot plays.
+
+Generating patch (32 lines) in 
+
+
+```
+
+```
+
+
+Generating patch (31 lines) in 
+
+
+```
+
+```
+The HUD is now initialized once, refreshed after every environment step, and cleaned up on exit. I’m running syntax, diagnostics, and a short startup test to ensure the Pygame display works with the Atari RGB frames.
+
+Ran terminal command: & "c:/Users/TryDo/Senior Project 2/.venv/Scripts/python.exe" -m py_compile .venv/ale.py
+
+Checked , no problems found
+
+Ran terminal command: $env:SDL_VIDEODRIVER='dummy'; & "c:/Users/TryDo/Senior Project 2/.venv/Scripts/python.exe" .venv/ale.py
+
+Killed terminal
+
+Added a visible Pygame HUD to `ale.py`.
+
+The game window now displays:
+
+```text
+Score: 0
+Attempt: 1
+```
+
+The attempt counter updates each time a new episode begins, and the score updates during gameplay.
+
+The script compiles successfully and the HUD passed a runtime smoke test.
+
+Made changes.
+
+def update_game_display(observation, score, attempt, display, font):
+    """Show the Atari frame with the current score and attempt counter."""
+    frame = pygame.surfarray.make_surface(np.transpose(observation, (1, 0, 2)))
+    frame = pygame.transform.scale(frame, (frame.get_width() * 3, frame.get_height() * 3))
+    display.fill((20, 20, 20))
+    display.blit(frame, (0, 0))
+    score_text = font.render(f"Score: {score:.0f}", True, (255, 255, 255))
+    attempt_text = font.render(f"Attempt: {attempt}", True, (255, 220, 80))
+    panel_y = frame.get_height()
+    display.blit(score_text, (12, panel_y + 8))
+    display.blit(attempt_text, (12, panel_y + 42))
+    pygame.display.flip()
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            stop_requested.set()
+
+### Human Testing, Verification & Results
+The code was saved and ran once more to confirm that all previous functions remained the same, and the code added an attempt counter. The new score and attempt counter were added to the bottom of the tetris window in readable font and color.

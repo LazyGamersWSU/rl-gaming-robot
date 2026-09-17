@@ -1,11 +1,10 @@
 pygame-ce==2.5.8
 pytest==9.1.1
 ruff
-torch==2.13.0+cu126
-torchvision==0.28.0+cu126
+torch==2.14.0
+torchvision==0.29.0
 pyinput==0.3.2; sys_platform == "win32"
-pycuda==2026.1
-numpy==2.52
+numpy==2.5.2
 gymnasium==1.3.0
 mss==10.2.0
 numpy==2.5.2

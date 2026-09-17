@@ -256,6 +256,10 @@ try:
                 action = manual_actions.get(timeout=1 / 60)
                 record_input("manual", "action", int(action))
             except Empty:
+                #action = select_action(policy_net, state, RL_ACTIONS, epsilon)
+                #record_input("bot", "action", int(action))
+
+                #obs, reward, terminated, truncated, info = step_environment(env, action)
                 action = 0
                 record_input("gravity", "action", action)
 
