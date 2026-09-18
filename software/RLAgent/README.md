@@ -15,3 +15,10 @@ First: download all files currently listed in the software folder.
 Second: Create an python virtual environment that uses python 3.14.3 or later, this environment should include all libraries listed in requirements.txt. Restart your terminal to make sure that it is using the virtual environment, this can be confirmed by seeing the green (.venv) on the left side.
 
 Third: Start up ale.py.
+
+
+# Version 1
+9/18/2026
+Currently the RL Agent has a Deep Q-Network that stores decisions and results into files. Pytorch sends the DQN game data and gives response to actions taken by the DQN. Ale.py houses the code to call the DQN and creates a tetris enviroment. The bot can interact with the game, winning one seems to be rare thus far. The commands for manual controls are interchangable with the bot control.
+
+Currently it does not send out USB commands, and learning is iffy to prove.
