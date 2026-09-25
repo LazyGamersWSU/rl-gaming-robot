@@ -1,12 +1,13 @@
 import numpy as np
 import gymnasium as gym
-from gymnasium import spaces
 import pygame
+from gymnasium import spaces
 
 class CustomTetrisEnv(gym.Env):
-    metadata = {"render_modes": ["human", "rgb_array"], "render_fps": 4}
+    
 
     def __init__(self, render_mode=None):
+        self.metadata = {"render_modes": ["human", "rgb_array"], "render_fps": 4}
         super().__init__()
         self.rows = 10
         self.cols = 5

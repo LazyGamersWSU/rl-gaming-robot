@@ -1,5 +1,3 @@
-import gymnasium as gym
-import ale_py
 import json
 import random
 from collections import deque
@@ -7,11 +5,15 @@ from pathlib import Path
 from queue import Empty, Queue
 from threading import Event, Lock
 from time import sleep, time
-from pynput import keyboard
+
+
+import ale_py
+import gymnasium as gym
 import numpy as np
 import pygame
 import torch
 from PIL import Image
+from pynput import keyboard
 from torch import nn
 from torch.optim import Adam
 
