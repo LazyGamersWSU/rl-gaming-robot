@@ -6,7 +6,6 @@ from queue import Empty, Queue
 from threading import Event, Lock
 from time import sleep, time
 
-
 import ale_py
 import gymnasium as gym
 import numpy as np
