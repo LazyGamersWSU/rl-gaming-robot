@@ -3,6 +3,7 @@ import numpy as np
 import pygame
 from gymnasium import spaces
 
+
 class CustomTetrisEnv(gym.Env):
     
 
