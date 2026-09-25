@@ -1,4 +1,3 @@
-import time
 import pygame
 from tetris_env import CustomTetrisEnv
 
@@ -22,11 +21,11 @@ while running:
 
     # 2. Select a placeholder random action choice
     action = env.action_space.sample()
-    
+
     # 3. Take step inside the canvas
     obs, reward, terminated, truncated, info = env.step(action)
     step += 1
-    
+
     if terminated or truncated:
         print(f"Episode completed at step {step}. Resetting environment...")
         obs, info = env.reset()
