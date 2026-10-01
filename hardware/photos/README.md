@@ -31,13 +31,13 @@ Initial concept for the layout of all the different components. This ended up cl
 <img src="Empty_Circuit_Board.jpeg" width="500">
 
 
-Circuit board as it arrived from the manufacturer. Corresponds with revision v4.0. Did not come with any components mounted, just through-holes.
+Circuit board as it arrived from the manufacturer. Corresponds with [revision v4.0](../electronics/pcb/PCB_REVISION_HISTORY.md). Did not come with any components mounted, just through-holes.
 
 
 <img src="First_Attempt.jpeg" width="500">
 
 
-First attempt at manufacturing a circuit board. Corresponds with revision v2.0. Sam Culp manufactured this in the Electronics Lab at Wichita State. This is a one-sided board made from a clad-copper PCB blank. Rather than laying down wires on a piece of material, the machine routed out the silhouette of each wire. Sam had to ensure proper sizing of the traces and annular rings to match the available drill bits.
+First attempt at manufacturing a circuit board. Corresponds with [revision v2.0](../electronics/pcb/PCB_REVISION_HISTORY.md). Sam Culp manufactured this in the Electronics Lab at Wichita State. This is a one-sided board made from a clad-copper PCB blank. Rather than laying down wires on a piece of material, the machine routed out the silhouette of each wire. Sam had to ensure proper sizing of the traces and annular rings to match the available drill bits.
 
 
 <img src="Protoboard.jpeg" width="500">
