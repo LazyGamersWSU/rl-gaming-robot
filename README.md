@@ -12,11 +12,12 @@ This repository contains the software and hardware elements used to create the p
 RL-Gaming-Robot/
 
 ├── hardware/
+│   ├── electronics/
 │   ├── experiments/
-│   │   ├── actuator_pulse/
-│   │   └── cad_files/
-│   └── production/
-│
+│   ├── firmware/
+│   ├── mechanical/
+│   └── photos/
+│ 
 ├── software/
 │   ├── requirements/
 │   ├── environment/
@@ -61,16 +62,10 @@ The intended system operates as a feedback loop:
 
 ```text
 ┌─────────────────┐
-│    NES Tetris   │
-└────────┬────────┘
-         │
-         │ Game State
-         ▼
-┌─────────────────┐
 │ Game Environment│
 └────────┬────────┘
          │
-         │ State
+         │ Game State
          ▼
 ┌─────────────────┐
 │    RL Agent     │
@@ -94,7 +89,7 @@ The intended system operates as a feedback loop:
 │  NES Controller │
 └────────┬────────┘
          │
-         └──────────────► NES Tetris
+         └──────────────► Game
 ```
 
 The game produces a new state after each action, allowing the RL agent to continually evaluate the game and select its next action.
@@ -159,3 +154,20 @@ Major development stages include:
 5. Software/hardware integration
 6. Full-system testing
 7. Final NES Tetris demonstration
+
+## Team Roles
+
+### Trystan Donmoyer - Software Development Lead
+- Leads development of the reinforcement learning software and agent
+- Develops training, inference, and game interaction systems
+- Maintains the software architecture and coordinates software-side implementation
+
+### Sam Culp - Hardware Development
+- Leads hardware design and implementation of the physical gaming robot
+- Designs and assembles the PCB, power distribution, actuator system, and mechanical components
+- Develops and integrates Arduino firmware for hardware control and communication with the software system
+
+### Matthew Dynes-Winberry - Integration & Testing
+- Integrates the software and hardware systems into a complete working platform
+- Develops and manages system-level testing and validation
+- Troubleshoots issues across hardware/software interfaces and verifies system reliability
