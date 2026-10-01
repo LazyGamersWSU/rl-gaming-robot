@@ -13,7 +13,7 @@ Full assembly of all the components. The build plate is a piece of 1/2" particle
 <img src="Finished_Circuit_Board.jpeg" width="500">
 
 
-Final circuit with all components soldered on. This board was designed by Sam Culp and manufactured by JLCPCB. The components were ordered from DigiKey. 
+Final circuit with all components soldered on. Corresponds with [revision v4.0](../electronics/pcb/PCB_REVISION_HISTORY.md). This board was designed by Sam Culp and manufactured by JLCPCB. The components were ordered from DigiKey. 
 
 
 <img src="Cradle_and_Gantry.jpeg" width="500">
