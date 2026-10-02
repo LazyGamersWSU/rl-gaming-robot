@@ -16,15 +16,28 @@ from pynput import keyboard
 from torch import nn
 from torch.optim import Adam
 
+#Tells Gym where the Atari games are.
 gym.register_envs(ale_py)
 
+#This build the Tetris enviroment and creates the screen through a pixel array.
 env = gym.make('ALE/Tetris-v5', render_mode='rgb_array')
 
-DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+#Picks what part that processes the training.
+DEVICE = torch.device("cpu")
+
+#Stores the path to the training data file, so that the file can be updated with new progress.
 MODEL_PATH = Path("tetris_dqn_rotations.pt")
+
+#Limits how long the training is to 100 episodes (training cycles) so that the game does not run forever.
 TRAINING_EPISODES = 100
+
+#Only allows the model to upload 32 experiences per update, allows for more stable training by not overloading the updates.
 BATCH_SIZE = 32
+
+#Saves the most recent 20,000 transitions for the bot to learn from, and not just the new ones.
 REPLAY_CAPACITY = 20_000
+
+#Gamma or Discount factor is the level to which the bot cares about future rewards. 0.99 means future rewards are  99% as important as current rewards.
 GAMMA = 0.99
 LEARNING_RATE = 1e-4
 TARGET_UPDATE_STEPS = 1_000
