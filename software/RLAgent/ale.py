@@ -16,62 +16,102 @@ from pynput import keyboard
 from torch import nn
 from torch.optim import Adam
 
-#Tells Gym where the Atari games are.
+#Tells Reinforcement Learning enviroment where the tetris games are.
 gym.register_envs(ale_py)
 
 #This build the Tetris enviroment and creates the screen through a pixel array.
 env = gym.make('ALE/Tetris-v5', render_mode='rgb_array')
 
 #Picks what part that processes the training.
-DEVICE = torch.device("cpu")
+Brain = torch.device("cpu")
 
 #Stores the path to the training data file, so that the file can be updated with new progress.
-MODEL_PATH = Path("tetris_dqn_rotations.pt")
+Memory_Path = Path("tetris_dqn_rotations.pt")
 
-#Limits how long the training is to 100 episodes (training cycles) so that the game does not run forever.
-TRAINING_EPISODES = 100
+#Limits how long the training is to 100 episodes (rounds of tetris).
+Training_Ep = 100
 
-#Only allows the model to upload 32 experiences per update, allows for more stable training by not overloading the updates.
-BATCH_SIZE = 32
+#Limits each update to 32 interactions, makes each update manageable for the agent.
+Update_Size = 32
 
-#Saves the most recent 20,000 transitions for the bot to learn from, and not just the new ones.
-REPLAY_CAPACITY = 20_000
+#Saves the most recent 20,000 interactions for the agent to recall later.
+Interactions_Saved = 20_000
 
-#Gamma or Discount factor is the level to which the bot cares about future rewards. 0.99 means future rewards are  99% as important as current rewards.
-GAMMA = 0.99
-LEARNING_RATE = 1e-4
-TARGET_UPDATE_STEPS = 1_000
-EPSILON_START = 1.0
-EPSILON_END = 0.05
-EPSILON_DECAY = 50_000
-ACTION_COUNT = 6
-RL_ACTIONS = [0, 1, 2, 3, 4, 5]
+#The level to which the bot cares about future rewards. 0.99 means future rewards are 99% as important as current rewards.
+Reward_Caring = 0.99
 
+#How much the agent changes per update.
+Change_Rate = 1e-4
 
-class DQN(nn.Module):
+#How many steps until the main network copies over to the target network.
+Steps_Til_Sync = 1_000
+
+#How random the agent's choices are at the beginning.
+Goofing_Amount_Start = 1.0
+
+#How random the agent's choices are at the end, some randomness helps keep the agent from getting stuck
+Goofing_Amount_End = 0.05
+
+#The max amount of steps until no more goofing is allowed.
+Goof_Decay_Rate = 50_000
+
+#The amount of choices the agent has.
+Choices = 6
+
+#The internal identifier of each choice.
+Choice_IDs = [0, 1, 2, 3, 4, 5]
+
+#The AI model, made out of a Deep Q Network. It learns the best action for the given screen.
+class Lazy_Gamer(nn.Module):
+    
+    #Runs the following commands whenever an object using the network is created.
     def __init__(self, action_count):
+
+        #Sets up the class using Pytorch.
         super().__init__()
-        self.network = nn.Sequential(
+
+        #When an object is created, the data is run through different layers in the order below.
+        self.network = nn.Sequential
+        (
+            #Scans for basic shapes and edges 4 pixels at a time.
             nn.Conv2d(1, 32, kernel_size=8, stride=4),
+
+            #Adds nonlinearity, which means the network can learn visual patterns and complex relationships.
             nn.ReLU(),
+
+            #Scans for full columns of blocks, empty spaces, and falling shapes.
             nn.Conv2d(32, 64, kernel_size=4, stride=2),
             nn.ReLU(),
+
+            #Scans the board in fine detail to refine patterns.
             nn.Conv2d(64, 64, kernel_size=3, stride=1),
             nn.ReLU(),
+
+            #Turns 3D images into 1D for later input.
             nn.Flatten(),
+
+            #Turns the 1D image into a feature vector to feed to the AI.
             nn.Linear(64 * 7 * 7, 512),
             nn.ReLU(),
+
+            #Compares the choices to the feture vector and provides which choice would give the best result (Q-Value).
             nn.Linear(512, action_count),
         )
 
-    def forward(self, states):
+    #Function that runs whenever the agent recieves and input
+    def Make_Choice(self, states):
+
+        #Take the input and run it through the layers above, return back with the choice made.
         return self.network(states)
 
-
-class ReplayBuffer:
+#Creates a memory structure to save past choices and outcomes.
+class Save_Data:
     def __init__(self, capacity):
+
+        #Creates a double ended queue to save past experiences.
         self.memory = deque(maxlen=capacity)
 
+    
     def add(self, state, action, reward, next_state, done):
         self.memory.append((state, action, reward, next_state, done))
 
@@ -91,7 +131,7 @@ def preprocess(observation):
 def select_action(policy_net, state, allowed_actions, epsilon):
     if random.random() < epsilon:
         return random.choice(allowed_actions)
-    state_tensor = torch.from_numpy(state).to(DEVICE).float().div(255).unsqueeze(0).unsqueeze(0)
+    state_tensor = torch.from_numpy(state).to(Brain).float().div(255).unsqueeze(0).unsqueeze(0)
     with torch.no_grad():
         q_values = policy_net(state_tensor)[0]
         masked_q_values = q_values.clone()
@@ -140,21 +180,21 @@ def update_game_display(observation, score, attempt, display, font):
 
 
 def optimize_model(policy_net, target_net, replay_buffer, optimizer):
-    if len(replay_buffer) < BATCH_SIZE:
+    if len(replay_buffer) < Update_Size:
         return None
 
-    batch = replay_buffer.sample(BATCH_SIZE)
+    batch = replay_buffer.sample(Update_Size)
     states, actions, rewards, next_states, dones = zip(*batch)
-    state_tensor = torch.from_numpy(np.stack(states)).to(DEVICE).float().div(255).unsqueeze(1)
-    next_state_tensor = torch.from_numpy(np.stack(next_states)).to(DEVICE).float().div(255).unsqueeze(1)
-    action_tensor = torch.tensor(actions, device=DEVICE, dtype=torch.long).unsqueeze(1)
-    reward_tensor = torch.tensor(rewards, device=DEVICE, dtype=torch.float32)
-    done_tensor = torch.tensor(dones, device=DEVICE, dtype=torch.float32)
+    state_tensor = torch.from_numpy(np.stack(states)).to(Brain).float().div(255).unsqueeze(1)
+    next_state_tensor = torch.from_numpy(np.stack(next_states)).to(Brain).float().div(255).unsqueeze(1)
+    action_tensor = torch.tensor(actions, device=Brain, dtype=torch.long).unsqueeze(1)
+    reward_tensor = torch.tensor(rewards, device=Brain, dtype=torch.float32)
+    done_tensor = torch.tensor(dones, device=Brain, dtype=torch.float32)
 
     current_q_values = policy_net(state_tensor).gather(1, action_tensor).squeeze(1)
     with torch.no_grad():
         next_q_values = target_net(next_state_tensor).max(dim=1).values
-        target_q_values = reward_tensor + GAMMA * next_q_values * (1 - done_tensor)
+        target_q_values = reward_tensor + Reward_Caring * next_q_values * (1 - done_tensor)
 
     loss = nn.functional.smooth_l1_loss(current_q_values, target_q_values)
     optimizer.zero_grad()
@@ -174,7 +214,7 @@ def save_checkpoint(policy_net, optimizer, episode, best_score, epsilon, steps):
             "epsilon": epsilon,
             "steps": steps,
         },
-        MODEL_PATH,
+        Memory_Path,
     )
 
 input_log = []
@@ -230,28 +270,28 @@ try:
     listener.start()
     pygame.init()
     hud_font = pygame.font.Font(None, 30)
-    policy_net = DQN(ACTION_COUNT).to(DEVICE)
-    target_net = DQN(ACTION_COUNT).to(DEVICE)
-    optimizer = Adam(policy_net.parameters(), lr=LEARNING_RATE)
-    replay_buffer = ReplayBuffer(REPLAY_CAPACITY)
+    policy_net = Lazy_Gamer(Choices).to(Brain)
+    target_net = Lazy_Gamer(Choices).to(Brain)
+    optimizer = Adam(policy_net.parameters(), lr=Change_Rate)
+    replay_buffer = Save_Data(Interactions_Saved)
     best_score = float("-inf")
-    epsilon = EPSILON_START
+    epsilon = Goofing_Amount_Start
     total_steps = 0
 
-    if MODEL_PATH.exists():
-        checkpoint = torch.load(MODEL_PATH, map_location=DEVICE)
+    if Memory_Path.exists():
+        checkpoint = torch.load(Memory_Path, map_location=Brain)
         policy_net.load_state_dict(checkpoint["model"])
         target_net.load_state_dict(checkpoint["model"])
         optimizer.load_state_dict(checkpoint["optimizer"])
         best_score = checkpoint.get("best_score", best_score)
         epsilon = checkpoint.get("epsilon", epsilon)
         total_steps = checkpoint.get("steps", total_steps)
-        print(f"Loaded checkpoint from {MODEL_PATH} on {DEVICE}.")
+        print(f"Loaded checkpoint from {Memory_Path} on {Brain}.")
 
     target_net.load_state_dict(policy_net.state_dict())
     target_net.eval()
 
-    for episode_number in range(1, TRAINING_EPISODES + 1):
+    for episode_number in range(1, Training_Ep + 1):
         if stop_requested.is_set():
             break
 
@@ -270,7 +310,7 @@ try:
                 action = manual_actions.get(timeout=1 / 60)
                 record_input("manual", "action", int(action))
             except Empty:
-                #action = select_action(policy_net, state, RL_ACTIONS, epsilon)
+                #action = select_action(policy_net, state, Choice_IDs, epsilon)
                 #record_input("bot", "action", int(action))
 
                 #obs, reward, terminated, truncated, info = step_environment(env, action)
@@ -289,16 +329,16 @@ try:
             update_game_display(obs, episode_score, episode_number, display, hud_font)
             total_steps += 1
             epsilon = max(
-                EPSILON_END,
-                EPSILON_START - (EPSILON_START - EPSILON_END) * total_steps / EPSILON_DECAY,
+                Goofing_Amount_End,
+                Goofing_Amount_Start - (Goofing_Amount_Start - Goofing_Amount_End) * total_steps / Goof_Decay_Rate,
             )
-            if total_steps % TARGET_UPDATE_STEPS == 0:
+            if total_steps % Steps_Til_Sync == 0:
                 target_net.load_state_dict(policy_net.state_dict())
             sleep(1 / 60)
 
         average_loss = sum(losses) / len(losses) if losses else 0.0
         print(
-            f"Episode {episode_number}/{TRAINING_EPISODES} | "
+            f"Episode {episode_number}/{Training_Ep} | "
             f"score={episode_score}\n"
             f"Attempt: {episode_number} | best={max(best_score, episode_score)} | "
             f"epsilon={epsilon:.3f} | loss={average_loss:.4f}"
