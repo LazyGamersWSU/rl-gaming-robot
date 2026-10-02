@@ -64,7 +64,7 @@ Choice_IDs = [0, 1, 2, 3, 4, 5]
 #The AI model, made out of a Deep Q Network. It learns the best action for the given screen.
 class Lazy_Gamer(nn.Module):
     
-    #Runs the following commands whenever an object using the network is created.
+    #Runs the following commands whenever a model is created.
     def __init__(self, action_count):
 
         #Sets up the class using Pytorch.
@@ -98,7 +98,7 @@ class Lazy_Gamer(nn.Module):
             nn.Linear(512, action_count),
         )
 
-    #Function that runs whenever the agent recieves and input
+    #Function to call that requires a state as an input.
     def Make_Choice(self, states):
 
         #Take the input and run it through the layers above, return back with the choice made.
@@ -111,10 +111,13 @@ class Save_Data:
         #Creates a double ended queue to save past experiences.
         self.memory = deque(maxlen=capacity)
 
-    
-    def add(self, state, action, reward, next_state, done):
+    #Function to add another experience to the replay buffer.
+    def remember(self, state, action, reward, next_state, done):
+
+        #Save these 5 values as one experience in the replay buffer.
         self.memory.append((state, action, reward, next_state, done))
 
+    
     def sample(self, batch_size):
         return random.sample(self.memory, batch_size)
 
@@ -320,7 +323,7 @@ try:
             obs, reward, terminated, truncated, info = step_environment(env, action)
             next_state = preprocess(obs)
             done = terminated or truncated
-            replay_buffer.add(state, action, float(reward), next_state, done)
+            replay_buffer.remember(state, action, float(reward), next_state, done)
             loss = optimize_model(policy_net, target_net, replay_buffer, optimizer)
             if loss is not None:
                 losses.append(loss)
