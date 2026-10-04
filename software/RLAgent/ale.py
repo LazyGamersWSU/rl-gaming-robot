@@ -186,7 +186,7 @@ def step_environment(env, action):
         4: (1,),       
     }
 
-    #How much the Gamer won, and is being informed it did a good job.
+    #How much the Gamer succeeded.
     total_reward = 0.0
 
     #See when the game ends.
@@ -244,81 +244,152 @@ def computer_make_game(observation, score, attempt, display, font):
         if event.type == pygame.QUIT:
             stop_requested.set()
 
+#Time to for Gamer to reflect on his actions.
+def learning_time(policy_net, target_net, replay_buffer, optimizer):
 
-def optimize_model(policy_net, target_net, replay_buffer, optimizer):
+    #Check to see if we have made enough choices to learn from.
     if len(replay_buffer) < Update_Size:
         return None
 
-    batch = replay_buffer.remember(Update_Size)
-    states, actions, rewards, next_states, dones = zip(*batch)
+    #Gather a selection of previous interactions.
+    short_term = replay_buffer.remember(Update_Size)
+
+    #Seperate the interactions into what actions were taken and what happened because of it.
+    states, actions, rewards, next_states, dones = zip(*short_term)
+
+    #Convert the current given image state into Pytorch tensors.
     image_to_tensor = torch.from_numpy(np.stack(states)).to(Brain).float().div(255).unsqueeze(1)
+
+    #Convert the next given image state into Pytorch tensor.
     next_image_to_tensor = torch.from_numpy(np.stack(next_states)).to(Brain).float().div(255).unsqueeze(1)
-    action_tensor = torch.tensor(actions, device=Brain, dtype=torch.long).unsqueeze(1)
-    reward_tensor = torch.tensor(rewards, device=Brain, dtype=torch.float32)
-    done_tensor = torch.tensor(dones, device=Brain, dtype=torch.float32)
 
-    current_q_values = policy_net(image_to_tensor).gather(1, action_tensor).squeeze(1)
+    #Converts the choice made into Pytorch tensor.
+    choice_to_tensor = torch.tensor(actions, device=Brain, dtype=torch.long).unsqueeze(1)
+
+    #Converts the total reward amount Pytorch tensor.
+    reward_to_tensor = torch.tensor(rewards, device=Brain, dtype=torch.float32)
+
+    #Tells the Pytorch if the most recent choice ended the game.
+    final_action = torch.tensor(dones, device=Brain, dtype=torch.float32)
+
+    #Gathers how impactful each choice was to take.
+    current_q_values = policy_net(image_to_tensor).gather(1, choice_to_tensor).squeeze(1)
+
+    
     with torch.no_grad():
-        next_q_values = target_net(next_image_to_tensor).max(dim=1).values
-        target_q_values = reward_tensor + Reward_Caring * next_q_values * (1 - done_tensor)
 
+        #Estimate the best possible action for the next state.
+        next_q_values = target_net(next_image_to_tensor).max(dim=1).values
+
+        #What actions the Gamer should look for.
+        target_q_values = reward_to_tensor + Reward_Caring * next_q_values * (1 - final_action)
+
+    #How far off the Gamer is from making the right choice.
     loss = nn.functional.smooth_l1_loss(current_q_values, target_q_values)
+
+    #Clears out old training information.
     optimizer.zero_grad()
+
+    #How much the Gamer needs to adjust.
     loss.backward()
+
+    #Scales down the update to keep the training stable.
     nn.utils.clip_grad_norm_(policy_net.parameters(), 10)
+
+    #Informs the Gamer how much it needs to change, makes the Gamer learn.
     optimizer.step()
+
+    #Record how far off the Gamer was for later use. 
     return float(loss.item())
 
-
-def save_checkpoint(policy_net, optimizer, episode, best_score, button_mash, steps):
+#Saves the progress to Gamer's long term memory.
+def long_term_memory(policy_net, optimizer, episode, best_score, button_mash, steps):
+    
     torch.save(
         {
+            #Saves the impact of each choice made.
             "model": policy_net.state_dict(),
+
+            #Updates the optimizer with past choices and results.
             "optimizer": optimizer.state_dict(),
+
+            #Saves how many episodes the bot went for.
             "episode": episode,
+
+            #Saves how well the bot did
             "best_score": best_score,
+
+            #Save how random the Gamers inputs are
             "button_mash": button_mash,
+
+            #Save how many environment steps happened at this point.
             "steps": steps,
         },
+
+        #File path to store the memory to.
         Memory_Path,
     )
 
+#List to store inputs
 input_log = []
+
+#Makes sure all simultaneous input events are recorded correctly.
 input_log_lock = Lock()
+
+#Looks to see if the game has been told to turn off.
 stop_requested = Event()
-manual_actions = Queue()
+
+#Creates a list of keyboard inputs for the game to use.
+keyboard_controls = Queue()
+
+#Record current time.
 started_at = time()
+
+#Map keyboard inputs to choices ingame.
 KEY_ACTIONS = {
     keyboard.Key.right: 1,
     keyboard.Key.left: 2,
     keyboard.Key.down: 3,
 }
 ROTATE_CLOCKWISE_COMMAND = "z"
-ROTATE_COUNTERCLOCKWISE_COMMAND = "x"
 
-
+#Record and display the choice made.
 def record_input(source, event, value):
     entry = {
+
+        #How long Tetris has been running. 
         "time": round(time() - started_at, 6),
+
+        #Who made the choice, either keyboard or Gamer.
         "source": source,
+
+        #How they made the choice, keyboard press or decision making.
         "event": event,
+
+        #What choice was made.
         "value": value,
     }
     with input_log_lock:
+
+        #Update with new choice entry.
         input_log.append(entry)
+
+    #Print choice info to console.
     print(entry)
 
-
+#Listen for keyboard inputs
 def on_press(key):
+
+    
     try:
         value = key.char
     except AttributeError:
         value = str(key)
     record_input("keyboard", "press", value)
     if key in KEY_ACTIONS:
-        manual_actions.put(KEY_ACTIONS[key])
+        keyboard_controls.put(KEY_ACTIONS[key])
     elif value == ROTATE_CLOCKWISE_COMMAND:
-        manual_actions.put(4)
+        keyboard_controls.put(4)
         record_input("keyboard", "command", "rotate +90")
 
 def on_release(key):
@@ -370,7 +441,7 @@ try:
 
         while not (terminated or truncated or stop_requested.is_set()):
             try:
-                action = manual_actions.get(timeout=1 / 60)
+                action = keyboard_controls.get(timeout=1 / 60)
                 record_input("manual", "action", int(action))
             except Empty:
                 #action = make_choice(policy_net, state, Choice_IDs, button_mash)
@@ -384,7 +455,7 @@ try:
             next_state = colorblind(obs)
             done = terminated or truncated
             replay_buffer.new_memory(state, action, float(reward), next_state, done)
-            loss = optimize_model(policy_net, target_net, replay_buffer, optimizer)
+            loss = learning_time(policy_net, target_net, replay_buffer, optimizer)
             if loss is not None:
                 losses.append(loss)
             state = next_state
@@ -409,7 +480,7 @@ try:
         record_input("episode", "score", episode_score)
         if episode_score > best_score:
             best_score = episode_score
-            save_checkpoint(
+            long_term_memory(
                 policy_net,
                 optimizer,
                 episode_number,
@@ -419,7 +490,7 @@ try:
             )
             print(f"Saved improved checkpoint with score {best_score}.")
 
-    save_checkpoint(policy_net, optimizer, episode_number, best_score, button_mash, total_steps)
+    long_term_memory(policy_net, optimizer, episode_number, best_score, button_mash, total_steps)
 finally:
     stop_requested.set()
     if "listener" in locals():
