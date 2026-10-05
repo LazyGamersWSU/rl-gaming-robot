@@ -28,4 +28,9 @@ This project plans to use the gymnasium library to create an environment for the
 The agent is also provided via Gymnasium
 
 ## Test Cases
-Test cases are recorded and graphed/stored, showing that the RL model is improving.
+All test cases are recorded and written here.
+
+### Test 1: Simple Interactions With Game
+This test is pretty straight forward, after starting the ale.py file, I manually controlled the game to make sure all inputs were being tracked. This being up, down, left, right, and both rotates. Once the game ended I went into the .json file that tracked all moves made and ctrl+f 'keyboard' to make the search easier. This showed me that all moves are being tracked properly. All moves were recorded and in the correct order, the timestamps were increased, and were accurate to the buttons I pressed (no misinputs).
+
+### Test 2: 
