@@ -8,7 +8,7 @@ Hardware design, firmware, schematics, experiments, and documentation for the RL
 * [`mechanical/`](mechanical/) — Mechanical design documentation and CAD files.
 * [`firmware/`](firmware/) — Arduino firmware for the hardware control system.
 * [`experiments/`](experiments/) — Hardware and controller experiments used during development.
-* [`photos/`](photos/) — Miscellaneous ardware photos.
+* [`photos/`](photos/) — Miscellaneous hardware photos.
 
 ## System Overview
 
