@@ -56,7 +56,7 @@ Button_Mash_End = 0.05
 Mash_Decay = 50_000
 
 #The amount of choices the agent has.
-Choices = 6
+Choices = 5
 
 #The internal identifier of each choice.
 Choice_IDs = [0, 1, 2, 3, 4]
@@ -71,8 +71,7 @@ class Lazy_Gamer(nn.Module):
         super().__init__()
 
         #When an object is created, the data is run through different layers in the order below.
-        self.network = nn.Sequential
-        (
+        self.network = nn.Sequential(
             #Scans for basic shapes and edges 4 pixels at a time.
             nn.Conv2d(1, 32, kernel_size=8, stride=4),
 
@@ -99,7 +98,7 @@ class Lazy_Gamer(nn.Module):
         )
 
     #Function to call that requires a state as an input.
-    def Make_Choice(self, states):
+    def forward(self, states):
 
         #Take the input and run it through the layers above, return back with the choice made.
         return self.network(states)
@@ -140,7 +139,7 @@ def colorblind(observation):
     return np.asarray(image, dtype=np.uint8).copy()
 
 #Function to take the current data and make a choice.
-def make_choice(policy_net, state, allowed_actions, button_mash):
+def forward(policy_net, state, allowed_actions, button_mash):
 
     #Check to see if the Gamer is button mashing.
     if random.random() < button_mash:
@@ -212,8 +211,8 @@ def step_environment(env, action):
             break
     return observation, total_reward, terminated, truncated, info
 
-#Show the game window with current attempt counter.
-def computer_make_game(observation, score, attempt, display, font):
+#Show the game window with the current mode and attempt counter.
+def computer_make_game(observation, score, attempt, agent_playing, display, font):
 
     #Creates a pygame image from the pixel data to display to humans.
     frame = pygame.surfarray.make_surface(np.transpose(observation, (1, 0, 2)))
@@ -227,14 +226,22 @@ def computer_make_game(observation, score, attempt, display, font):
     #Creates the full game image starting from the top left.
     display.blit(frame, (0, 0))
 
-    #Creates the text to display the amount of attempts the agent has done.
-    attempt_text = font.render(f"Attempt: {attempt}", True, (255, 220, 80))
-
     #Saves the height of the game image.
     image_height = frame.get_height()
 
-    #Display the attempt counter on the bottom of the screen
-    display.blit(attempt_text, (12, image_height + 42))
+    #Display who is playing and the current attempt number.
+    mode_text = font.render(
+        "Gamer is playing" if agent_playing else "You are playing",
+        True,
+        (120, 220, 160) if agent_playing else (120, 190, 255),
+    )
+    swap_to = "Human" if agent_playing else "Gamer"
+    swap_text = font.render(f"Press Space to swap to {swap_to}", True, (230, 230, 230))
+    attempt_text = font.render(f"Attempt: {attempt}", True, (255, 220, 80))
+
+    display.blit(mode_text, (12, image_height + 6))
+    display.blit(swap_text, (12, image_height + 38))
+    display.blit(attempt_text, (12, image_height + 72))
 
     #Make everything visible to humans.
     pygame.display.flip()
@@ -303,7 +310,7 @@ def learning_time(policy_net, target_net, replay_buffer, optimizer):
     return float(loss.item())
 
 #Saves the progress to Gamer's long term memory.
-def long_term_memory(policy_net, optimizer, episode, best_score, button_mash, steps):
+def long_term_memory(policy_net, optimizer, episode, best_score, button_mash, total_env_steps):
     
     torch.save(
         {
@@ -323,7 +330,7 @@ def long_term_memory(policy_net, optimizer, episode, best_score, button_mash, st
             "button_mash": button_mash,
 
             #Save how many environment steps happened at this point.
-            "steps": steps,
+            "total_env_steps": total_env_steps,
         },
 
         #File path to store the memory to.
@@ -341,6 +348,11 @@ stop_requested = Event()
 
 #Creates a list of keyboard inputs for the game to use.
 keyboard_controls = Queue()
+
+#Starts in agent mode; Space toggles between agent and keyboard control.
+agent_mode = Event()
+agent_mode.set()
+space_held = False
 
 #Record current time.
 started_at = time()
@@ -379,124 +391,257 @@ def record_input(source, event, value):
 
 #Listen for keyboard inputs
 def on_press(key):
+    global space_held
 
-    
+    #Output the text for normal keys
     try:
         value = key.char
+
+    #Output special keys as key.special_key
     except AttributeError:
         value = str(key)
-    record_input("keyboard", "press", value)
-    if key in KEY_ACTIONS:
-        keyboard_controls.put(KEY_ACTIONS[key])
-    elif value == ROTATE_CLOCKWISE_COMMAND:
-        keyboard_controls.put(4)
-        record_input("keyboard", "command", "rotate +90")
 
-def on_release(key):
-    value = getattr(key, "char", str(key))
-    record_input("keyboard", "release", value)
+    #Record what key was pressed.
+    record_input("keyboard", "press", value)
+
+    #Spacebar now swaps between the Gamer and human control.
+    if key == keyboard.Key.space:
+
+        #Does not work if you hold down the spacebar, only works on the first press.
+        if not space_held:
+            space_held = True
+
+            #Swap from Gamer to human control.
+            if agent_mode.is_set():
+                agent_mode.clear()
+                mode = "keyboard"
+            else:
+
+                #Swap from human control to Gamer.
+                agent_mode.set()
+                mode = "agent"
+                while True:
+                    try:
+                        keyboard_controls.get_nowait()
+                    except Empty:
+                        break
+            record_input("mode", "toggle", mode)
+        return
+
+    if not agent_mode.is_set():
+        #If the key pressed is a valid choice, map the key to that choice.
+        if key in KEY_ACTIONS:
+            keyboard_controls.put(KEY_ACTIONS[key])
+
+        #Rotate clockwise is bound to z, so it needs its own special line.
+        elif value == ROTATE_CLOCKWISE_COMMAND:
+            keyboard_controls.put(4)
+            record_input("keyboard", "command", "rotate +90")
+
+    #If esc is hit, close the game and end the training session.
     if key == keyboard.Key.esc:
         stop_requested.set()
         return False
 
+#Signifies that the spacebar is no longer being held down.
+def on_release(key):
+    global space_held
+
+    if key == keyboard.Key.space:
+        space_held = False
+
+
 try:
+
+    #Starts the keyboard input listener
     listener = keyboard.Listener(on_press=on_press, on_release=on_release)
     listener.start()
+
+    #Starts up the Tetris window.
     pygame.init()
     hud_font = pygame.font.Font(None, 30)
-    policy_net = Lazy_Gamer(Choices).to(Brain)
-    target_net = Lazy_Gamer(Choices).to(Brain)
-    optimizer = Adam(policy_net.parameters(), lr=Change_Rate)
-    replay_buffer = Save_Data(Interactions_Saved)
-    best_score = float("-inf")
-    button_mash = Button_Mash_Start
-    total_steps = 0
 
+    #Wake up the Gamer.
+    policy_net = Lazy_Gamer(Choices).to(Brain)
+
+    #Create goals for the Gamer to stride for.
+    target_net = Lazy_Gamer(Choices).to(Brain)
+
+    #Create the optimizer to smooth out learning.
+    optimizer = Adam(policy_net.parameters(), lr=Change_Rate)
+
+    #Create the replay buffer to save exeriences of this session.
+    replay_buffer = Save_Data(Interactions_Saved)
+
+    #Start the high score as low as possible.
+    best_score = float("-inf")
+
+    #Reset how much exploration happwns in the beginning.
+    button_mash = Button_Mash_Start
+
+    #Fresh environment so no steps have happened.
+    total_env_steps = 0
+
+    #Load saved memories if some exist.
     if Memory_Path.exists():
+
+        #Loads previous Pytorch tensors into the brain.
         checkpoint = torch.load(Memory_Path, map_location=Brain)
+
+        #Load saved choice weight into the Gamer, so it can use what it has learned.
         policy_net.load_state_dict(checkpoint["model"])
+
+        #Load the same information into the target for a good starting point.
         target_net.load_state_dict(checkpoint["model"])
+
+        #Load in previous optimize data, so training can go smoothly.
         optimizer.load_state_dict(checkpoint["optimizer"])
+
+        #Load in best score Gamer has schieved so it knows what to aim to beat.
         best_score = checkpoint.get("best_score", best_score)
+
+        #Load in how much the Gamer is supposed to explore to make sure the appropriate amount of randomness is happening.
         button_mash = checkpoint.get("button_mash", button_mash)
-        total_steps = checkpoint.get("steps", total_steps)
+
+        #Load in total amount of environment steps so far, keeps scheduling consisten for copying over the network to target network.
+        total_env_steps = checkpoint.get("total_env_steps", total_env_steps)
         print(f"Loaded checkpoint from {Memory_Path} on {Brain}.")
 
+    #Match target network and current network incase a save file does not already exist.
     target_net.load_state_dict(policy_net.state_dict())
-    target_net.eval()
 
+    #Record the amount of episodes played until the game is closed.
     for episode_number in range(1, Training_Ep + 1):
         if stop_requested.is_set():
             break
 
+        
         obs, info = env.reset()
+
+        #Make sure the game window is only created once instead of each episode.
         if "display" not in locals():
-            display = pygame.display.set_mode((obs.shape[1] * 3, obs.shape[0] * 3 + 75))
+            display = pygame.display.set_mode((obs.shape[1] * 3, obs.shape[0] * 3 + 115))
             pygame.display.set_caption("Tetris RL Agent")
+
+        #Converts the current image and converts it into a format the Gamer can recognize.
         state = colorblind(obs)
+
+        #Dont end the episode upon creating it.
         terminated = truncated = False
+
+        #Brand new attempt, so the score is zero.
         episode_score = 0.0
+
+        #Keep track of how far off the Gamer was for this attempt.
         losses = []
-        computer_make_game(obs, episode_score, episode_number, display, hud_font)
 
+        #Display everything that was created in a Pygame window for humans to see.
+        computer_make_game(obs, episode_score, episode_number, agent_mode.is_set(), display, hud_font)
+
+        #Listen for inputs as long as the game is active
         while not (terminated or truncated or stop_requested.is_set()):
-            try:
-                action = keyboard_controls.get(timeout=1 / 60)
-                record_input("manual", "action", int(action))
-            except Empty:
-                #action = make_choice(policy_net, state, Choice_IDs, button_mash)
-                #record_input("bot", "action", int(action))
+            if agent_mode.is_set():
+                action = forward(policy_net, state, Choice_IDs, button_mash)
+                record_input("Gamer", "action", int(action))
+            else:
+                try:
+                    #Check for keyboard inputs
+                    action = keyboard_controls.get(timeout=1 / 60)
+                    record_input("manual", "action", int(action))
+                except Empty:
+                    #Have blocks move down consistently to simulate gravity.
+                    action = 0
+                    record_input("gravity", "action", action)
 
-                #obs, reward, terminated, truncated, info = step_environment(env, action)
-                action = 0
-                record_input("gravity", "action", action)
-
+            #Apply the choice to the game and produce the next game image.
             obs, reward, terminated, truncated, info = step_environment(env, action)
+
+            #Turn the next game image into a game state for choice making and loop.
             next_state = colorblind(obs)
+
+            #Check to see if the game has been stopped.
             done = terminated or truncated
-            replay_buffer.new_memory(state, action, float(reward), next_state, done)
-            loss = learning_time(policy_net, target_net, replay_buffer, optimizer)
-            if loss is not None:
-                losses.append(loss)
+
+            if agent_mode.is_set():
+                #Update the Gamer's memory with a new experience.
+                replay_buffer.new_memory(state, action, float(reward), next_state, done)
+
+                #Update to see how far the gamer was from succeeding this time.
+                loss = learning_time(policy_net, target_net, replay_buffer, optimizer)
+
+                #Keep a running total to see how many times the Gamer is wrong.
+                if loss is not None:
+                    losses.append(loss)
+
+            #Replace the old state with the new one for the Gamer to make a choice on.
             state = next_state
+
+            #Update how many points the Gamer got this attempt.
             episode_score += float(reward)
-            computer_make_game(obs, episode_score, episode_number, display, hud_font)
-            total_steps += 1
-            button_mash = max(
-                Button_Mash_End,
-                Button_Mash_Start - (Button_Mash_Start - Button_Mash_End) * total_steps / Mash_Decay,
-            )
-            if total_steps % Steps_Til_Sync == 0:
-                target_net.load_state_dict(policy_net.state_dict())
+
+            #Update the Pygame window to reflect the choices and results.
+            computer_make_game(obs, episode_score, episode_number, agent_mode.is_set(), display, hud_font)
+
+            if agent_mode.is_set():
+                #Count agent-controlled steps and update its exploration schedule.
+                total_env_steps += 1
+                button_mash = max(
+                    Button_Mash_End,
+                    Button_Mash_Start - (Button_Mash_Start - Button_Mash_End) * total_env_steps / Mash_Decay,
+                )
+
+                #Update the target network at the configured step interval.
+                if total_env_steps % Steps_Til_Sync == 0:
+                    target_net.load_state_dict(policy_net.state_dict())
             sleep(1 / 60)
 
+        #See on average how off the Gamer was from scoring.
         average_loss = sum(losses) / len(losses) if losses else 0.0
         print(
+
+            #Print out a summary of the game played to see how well Gamer did.
             f"Episode {episode_number}/{Training_Ep} | "
             f"score={episode_score}\n"
             f"Attempt: {episode_number} | best={max(best_score, episode_score)} | "
             f"button_mash={button_mash:.3f} | loss={average_loss:.4f}"
         )
+
+        #Save the episodes score for later reporting.
         record_input("episode", "score", episode_score)
+
+        #Check to see if the Gamer's highscore needs to be updated.
         if episode_score > best_score:
             best_score = episode_score
+
+            #Update the long term memory with the state the Gamer got the high score in.
             long_term_memory(
                 policy_net,
                 optimizer,
                 episode_number,
                 best_score,
                 button_mash,
-                total_steps,
+                total_env_steps,
             )
             print(f"Saved improved checkpoint with score {best_score}.")
 
-    long_term_memory(policy_net, optimizer, episode_number, best_score, button_mash, total_steps)
+    #Update the Gamer's long term memory to save the progress he has made.
+    long_term_memory(policy_net, optimizer, episode_number, best_score, button_mash, total_env_steps)
 finally:
+
+    #Tell the program to end.
     stop_requested.set()
+
+    #Stop listening to inputs.
     if "listener" in locals():
         listener.stop()
         listener.join()
+
+    #Turn off the tetris environment.
     env.close()
+
+    #Shut her down, no more Tetris.
     pygame.quit()
+
+    #Update the input log made for later reporting.
     with open("tetris_input_log.json", "w", encoding="utf-8") as log_file:
         json.dump(input_log, log_file, indent=2)
