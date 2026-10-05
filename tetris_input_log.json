@@ -1,0 +1,2174 @@
+[
+  {
+    "time": 3.092386,
+    "source": "bot",
+    "event": "action",
+    "value": 2
+  },
+  {
+    "time": 3.122504,
+    "source": "bot",
+    "event": "action",
+    "value": 2
+  },
+  {
+    "time": 3.144561,
+    "source": "bot",
+    "event": "action",
+    "value": 0
+  },
+  {
+    "time": 3.16563,
+    "source": "bot",
+    "event": "action",
+    "value": 0
+  },
+  {
+    "time": 3.201738,
+    "source": "bot",
+    "event": "action",
+    "value": 0
+  },
+  {
+    "time": 3.22278,
+    "source": "bot",
+    "event": "action",
+    "value": 0
+  },
+  {
+    "time": 3.243327,
+    "source": "bot",
+    "event": "action",
+    "value": 1
+  },
+  {
+    "time": 3.263371,
+    "source": "bot",
+    "event": "action",
+    "value": 4
+  },
+  {
+    "time": 3.284428,
+    "source": "bot",
+    "event": "action",
+    "value": 2
+  },
+  {
+    "time": 3.309667,
+    "source": "bot",
+    "event": "action",
+    "value": 3
+  },
+  {
+    "time": 3.33281,
+    "source": "bot",
+    "event": "action",
+    "value": 0
+  },
+  {
+    "time": 3.353393,
+    "source": "bot",
+    "event": "action",
+    "value": 2
+  },
+  {
+    "time": 3.374453,
+    "source": "bot",
+    "event": "action",
+    "value": 1
+  },
+  {
+    "time": 3.394996,
+    "source": "bot",
+    "event": "action",
+    "value": 0
+  },
+  {
+    "time": 3.415531,
+    "source": "bot",
+    "event": "action",
+    "value": 5
+  },
+  {
+    "time": 3.439077,
+    "source": "bot",
+    "event": "action",
+    "value": 0
+  },
+  {
+    "time": 3.460119,
+    "source": "bot",
+    "event": "action",
+    "value": 0
+  },
+  {
+    "time": 3.481655,
+    "source": "bot",
+    "event": "action",
+    "value": 0
+  },
+  {
+    "time": 3.502205,
+    "source": "bot",
+    "event": "action",
+    "value": 3
+  },
+  {
+    "time": 3.522234,
+    "source": "bot",
+    "event": "action",
+    "value": 1
+  },
+  {
+    "time": 3.542262,
+    "source": "bot",
+    "event": "action",
+    "value": 5
+  },
+  {
+    "time": 3.566314,
+    "source": "bot",
+    "event": "action",
+    "value": 0
+  },
+  {
+    "time": 3.58761,
+    "source": "bot",
+    "event": "action",
+    "value": 3
+  },
+  {
+    "time": 3.608149,
+    "source": "bot",
+    "event": "action",
+    "value": 4
+  },
+  {
+    "time": 3.628687,
+    "source": "bot",
+    "event": "action",
+    "value": 2
+  },
+  {
+    "time": 3.650231,
+    "source": "bot",
+    "event": "action",
+    "value": 0
+  },
+  {
+    "time": 3.671288,
+    "source": "bot",
+    "event": "action",
+    "value": 3
+  },
+  {
+    "time": 3.692735,
+    "source": "bot",
+    "event": "action",
+    "value": 0
+  },
+  {
+    "time": 3.713274,
+    "source": "bot",
+    "event": "action",
+    "value": 2
+  },
+  {
+    "time": 3.733738,
+    "source": "bot",
+    "event": "action",
+    "value": 5
+  },
+  {
+    "time": 3.75529,
+    "source": "bot",
+    "event": "action",
+    "value": 2
+  },
+  {
+    "time": 3.775827,
+    "source": "bot",
+    "event": "action",
+    "value": 2
+  },
+  {
+    "time": 3.839992,
+    "source": "bot",
+    "event": "action",
+    "value": 0
+  },
+  {
+    "time": 3.891161,
+    "source": "bot",
+    "event": "action",
+    "value": 1
+  },
+  {
+    "time": 3.938785,
+    "source": "bot",
+    "event": "action",
+    "value": 0
+  },
+  {
+    "time": 3.987398,
+    "source": "bot",
+    "event": "action",
+    "value": 5
+  },
+  {
+    "time": 4.038029,
+    "source": "bot",
+    "event": "action",
+    "value": 5
+  },
+  {
+    "time": 4.091408,
+    "source": "bot",
+    "event": "action",
+    "value": 3
+  },
+  {
+    "time": 4.142061,
+    "source": "bot",
+    "event": "action",
+    "value": 0
+  },
+  {
+    "time": 4.195213,
+    "source": "bot",
+    "event": "action",
+    "value": 0
+  },
+  {
+    "time": 4.243911,
+    "source": "bot",
+    "event": "action",
+    "value": 4
+  },
+  {
+    "time": 4.293139,
+    "source": "bot",
+    "event": "action",
+    "value": 2
+  },
+  {
+    "time": 4.340243,
+    "source": "bot",
+    "event": "action",
+    "value": 1
+  },
+  {
+    "time": 4.389904,
+    "source": "bot",
+    "event": "action",
+    "value": 1
+  },
+  {
+    "time": 4.439503,
+    "source": "bot",
+    "event": "action",
+    "value": 3
+  },
+  {
+    "time": 4.490417,
+    "source": "bot",
+    "event": "action",
+    "value": 0
+  },
+  {
+    "time": 4.539992,
+    "source": "bot",
+    "event": "action",
+    "value": 1
+  },
+  {
+    "time": 4.587609,
+    "source": "bot",
+    "event": "action",
+    "value": 2
+  },
+  {
+    "time": 4.633976,
+    "source": "bot",
+    "event": "action",
+    "value": 5
+  },
+  {
+    "time": 4.684783,
+    "source": "bot",
+    "event": "action",
+    "value": 2
+  },
+  {
+    "time": 4.733133,
+    "source": "bot",
+    "event": "action",
+    "value": 1
+  },
+  {
+    "time": 4.779719,
+    "source": "bot",
+    "event": "action",
+    "value": 2
+  },
+  {
+    "time": 4.829318,
+    "source": "bot",
+    "event": "action",
+    "value": 0
+  },
+  {
+    "time": 4.877941,
+    "source": "bot",
+    "event": "action",
+    "value": 0
+  },
+  {
+    "time": 4.9273,
+    "source": "bot",
+    "event": "action",
+    "value": 0
+  },
+  {
+    "time": 4.975804,
+    "source": "bot",
+    "event": "action",
+    "value": 0
+  },
+  {
+    "time": 5.028432,
+    "source": "bot",
+    "event": "action",
+    "value": 5
+  },
+  {
+    "time": 5.078542,
+    "source": "bot",
+    "event": "action",
+    "value": 2
+  },
+  {
+    "time": 5.129624,
+    "source": "bot",
+    "event": "action",
+    "value": 5
+  },
+  {
+    "time": 5.179245,
+    "source": "bot",
+    "event": "action",
+    "value": 0
+  },
+  {
+    "time": 5.227852,
+    "source": "bot",
+    "event": "action",
+    "value": 1
+  },
+  {
+    "time": 5.276505,
+    "source": "bot",
+    "event": "action",
+    "value": 1
+  },
+  {
+    "time": 5.326817,
+    "source": "bot",
+    "event": "action",
+    "value": 4
+  },
+  {
+    "time": 5.376535,
+    "source": "bot",
+    "event": "action",
+    "value": 4
+  },
+  {
+    "time": 5.42566,
+    "source": "bot",
+    "event": "action",
+    "value": 1
+  },
+  {
+    "time": 5.475378,
+    "source": "bot",
+    "event": "action",
+    "value": 4
+  },
+  {
+    "time": 5.524525,
+    "source": "bot",
+    "event": "action",
+    "value": 3
+  },
+  {
+    "time": 5.574516,
+    "source": "bot",
+    "event": "action",
+    "value": 0
+  },
+  {
+    "time": 5.623118,
+    "source": "bot",
+    "event": "action",
+    "value": 5
+  },
+  {
+    "time": 5.673617,
+    "source": "bot",
+    "event": "action",
+    "value": 3
+  },
+  {
+    "time": 5.723248,
+    "source": "bot",
+    "event": "action",
+    "value": 3
+  },
+  {
+    "time": 5.775407,
+    "source": "bot",
+    "event": "action",
+    "value": 5
+  },
+  {
+    "time": 5.82907,
+    "source": "bot",
+    "event": "action",
+    "value": 5
+  },
+  {
+    "time": 5.880337,
+    "source": "bot",
+    "event": "action",
+    "value": 1
+  },
+  {
+    "time": 5.932585,
+    "source": "bot",
+    "event": "action",
+    "value": 5
+  },
+  {
+    "time": 5.98558,
+    "source": "bot",
+    "event": "action",
+    "value": 4
+  },
+  {
+    "time": 6.034715,
+    "source": "bot",
+    "event": "action",
+    "value": 0
+  },
+  {
+    "time": 6.083409,
+    "source": "bot",
+    "event": "action",
+    "value": 5
+  },
+  {
+    "time": 6.133772,
+    "source": "bot",
+    "event": "action",
+    "value": 2
+  },
+  {
+    "time": 6.183508,
+    "source": "bot",
+    "event": "action",
+    "value": 4
+  },
+  {
+    "time": 6.232637,
+    "source": "bot",
+    "event": "action",
+    "value": 1
+  },
+  {
+    "time": 6.284285,
+    "source": "bot",
+    "event": "action",
+    "value": 5
+  },
+  {
+    "time": 6.33692,
+    "source": "bot",
+    "event": "action",
+    "value": 4
+  },
+  {
+    "time": 6.387317,
+    "source": "bot",
+    "event": "action",
+    "value": 5
+  },
+  {
+    "time": 6.440453,
+    "source": "bot",
+    "event": "action",
+    "value": 2
+  },
+  {
+    "time": 6.492136,
+    "source": "bot",
+    "event": "action",
+    "value": 0
+  },
+  {
+    "time": 6.542764,
+    "source": "bot",
+    "event": "action",
+    "value": 0
+  },
+  {
+    "time": 6.593387,
+    "source": "bot",
+    "event": "action",
+    "value": 5
+  },
+  {
+    "time": 6.644052,
+    "source": "bot",
+    "event": "action",
+    "value": 0
+  },
+  {
+    "time": 6.693725,
+    "source": "bot",
+    "event": "action",
+    "value": 5
+  },
+  {
+    "time": 6.745969,
+    "source": "bot",
+    "event": "action",
+    "value": 5
+  },
+  {
+    "time": 6.798132,
+    "source": "bot",
+    "event": "action",
+    "value": 5
+  },
+  {
+    "time": 6.848738,
+    "source": "bot",
+    "event": "action",
+    "value": 2
+  },
+  {
+    "time": 6.89839,
+    "source": "bot",
+    "event": "action",
+    "value": 2
+  },
+  {
+    "time": 6.948898,
+    "source": "bot",
+    "event": "action",
+    "value": 5
+  },
+  {
+    "time": 7.000978,
+    "source": "bot",
+    "event": "action",
+    "value": 1
+  },
+  {
+    "time": 7.051533,
+    "source": "bot",
+    "event": "action",
+    "value": 3
+  },
+  {
+    "time": 7.101665,
+    "source": "bot",
+    "event": "action",
+    "value": 3
+  },
+  {
+    "time": 7.153365,
+    "source": "bot",
+    "event": "action",
+    "value": 2
+  },
+  {
+    "time": 7.20465,
+    "source": "bot",
+    "event": "action",
+    "value": 3
+  },
+  {
+    "time": 7.254659,
+    "source": "bot",
+    "event": "action",
+    "value": 2
+  },
+  {
+    "time": 7.305321,
+    "source": "bot",
+    "event": "action",
+    "value": 4
+  },
+  {
+    "time": 7.357961,
+    "source": "bot",
+    "event": "action",
+    "value": 4
+  },
+  {
+    "time": 7.408078,
+    "source": "bot",
+    "event": "action",
+    "value": 0
+  },
+  {
+    "time": 7.456697,
+    "source": "bot",
+    "event": "action",
+    "value": 3
+  },
+  {
+    "time": 7.503634,
+    "source": "bot",
+    "event": "action",
+    "value": 5
+  },
+  {
+    "time": 7.554769,
+    "source": "bot",
+    "event": "action",
+    "value": 2
+  },
+  {
+    "time": 7.60447,
+    "source": "bot",
+    "event": "action",
+    "value": 3
+  },
+  {
+    "time": 7.652686,
+    "source": "bot",
+    "event": "action",
+    "value": 1
+  },
+  {
+    "time": 7.700335,
+    "source": "bot",
+    "event": "action",
+    "value": 4
+  },
+  {
+    "time": 7.750269,
+    "source": "bot",
+    "event": "action",
+    "value": 1
+  },
+  {
+    "time": 7.801908,
+    "source": "bot",
+    "event": "action",
+    "value": 1
+  },
+  {
+    "time": 7.851546,
+    "source": "bot",
+    "event": "action",
+    "value": 2
+  },
+  {
+    "time": 7.900234,
+    "source": "bot",
+    "event": "action",
+    "value": 2
+  },
+  {
+    "time": 7.949383,
+    "source": "bot",
+    "event": "action",
+    "value": 2
+  },
+  {
+    "time": 8.00009,
+    "source": "bot",
+    "event": "action",
+    "value": 5
+  },
+  {
+    "time": 8.053592,
+    "source": "bot",
+    "event": "action",
+    "value": 5
+  },
+  {
+    "time": 8.105209,
+    "source": "bot",
+    "event": "action",
+    "value": 0
+  },
+  {
+    "time": 8.155365,
+    "source": "bot",
+    "event": "action",
+    "value": 4
+  },
+  {
+    "time": 8.204251,
+    "source": "bot",
+    "event": "action",
+    "value": 3
+  },
+  {
+    "time": 8.252998,
+    "source": "bot",
+    "event": "action",
+    "value": 4
+  },
+  {
+    "time": 8.302291,
+    "source": "bot",
+    "event": "action",
+    "value": 2
+  },
+  {
+    "time": 8.352448,
+    "source": "bot",
+    "event": "action",
+    "value": 0
+  },
+  {
+    "time": 8.404145,
+    "source": "bot",
+    "event": "action",
+    "value": 5
+  },
+  {
+    "time": 8.455815,
+    "source": "bot",
+    "event": "action",
+    "value": 1
+  },
+  {
+    "time": 8.504627,
+    "source": "bot",
+    "event": "action",
+    "value": 2
+  },
+  {
+    "time": 8.554767,
+    "source": "bot",
+    "event": "action",
+    "value": 4
+  },
+  {
+    "time": 8.604461,
+    "source": "bot",
+    "event": "action",
+    "value": 0
+  },
+  {
+    "time": 8.653677,
+    "source": "bot",
+    "event": "action",
+    "value": 0
+  },
+  {
+    "time": 8.703074,
+    "source": "bot",
+    "event": "action",
+    "value": 5
+  },
+  {
+    "time": 8.756714,
+    "source": "bot",
+    "event": "action",
+    "value": 4
+  },
+  {
+    "time": 8.807754,
+    "source": "bot",
+    "event": "action",
+    "value": 3
+  },
+  {
+    "time": 8.857916,
+    "source": "bot",
+    "event": "action",
+    "value": 3
+  },
+  {
+    "time": 8.907046,
+    "source": "bot",
+    "event": "action",
+    "value": 3
+  },
+  {
+    "time": 8.956781,
+    "source": "bot",
+    "event": "action",
+    "value": 0
+  },
+  {
+    "time": 9.008996,
+    "source": "bot",
+    "event": "action",
+    "value": 4
+  },
+  {
+    "time": 9.060401,
+    "source": "bot",
+    "event": "action",
+    "value": 1
+  },
+  {
+    "time": 9.111813,
+    "source": "bot",
+    "event": "action",
+    "value": 5
+  },
+  {
+    "time": 9.164665,
+    "source": "bot",
+    "event": "action",
+    "value": 1
+  },
+  {
+    "time": 9.215815,
+    "source": "bot",
+    "event": "action",
+    "value": 1
+  },
+  {
+    "time": 9.26598,
+    "source": "bot",
+    "event": "action",
+    "value": 0
+  },
+  {
+    "time": 9.31831,
+    "source": "bot",
+    "event": "action",
+    "value": 2
+  },
+  {
+    "time": 9.370756,
+    "source": "bot",
+    "event": "action",
+    "value": 3
+  },
+  {
+    "time": 9.421943,
+    "source": "bot",
+    "event": "action",
+    "value": 1
+  },
+  {
+    "time": 9.473135,
+    "source": "bot",
+    "event": "action",
+    "value": 3
+  },
+  {
+    "time": 9.523283,
+    "source": "bot",
+    "event": "action",
+    "value": 0
+  },
+  {
+    "time": 9.571962,
+    "source": "bot",
+    "event": "action",
+    "value": 5
+  },
+  {
+    "time": 9.62308,
+    "source": "bot",
+    "event": "action",
+    "value": 4
+  },
+  {
+    "time": 9.673487,
+    "source": "bot",
+    "event": "action",
+    "value": 3
+  },
+  {
+    "time": 9.724334,
+    "source": "bot",
+    "event": "action",
+    "value": 5
+  },
+  {
+    "time": 9.775964,
+    "source": "bot",
+    "event": "action",
+    "value": 5
+  },
+  {
+    "time": 9.828589,
+    "source": "bot",
+    "event": "action",
+    "value": 5
+  },
+  {
+    "time": 9.880256,
+    "source": "bot",
+    "event": "action",
+    "value": 5
+  },
+  {
+    "time": 9.932781,
+    "source": "bot",
+    "event": "action",
+    "value": 2
+  },
+  {
+    "time": 9.982964,
+    "source": "bot",
+    "event": "action",
+    "value": 1
+  },
+  {
+    "time": 10.032087,
+    "source": "bot",
+    "event": "action",
+    "value": 5
+  },
+  {
+    "time": 10.084812,
+    "source": "bot",
+    "event": "action",
+    "value": 3
+  },
+  {
+    "time": 10.135444,
+    "source": "bot",
+    "event": "action",
+    "value": 4
+  },
+  {
+    "time": 10.186099,
+    "source": "bot",
+    "event": "action",
+    "value": 4
+  },
+  {
+    "time": 10.236734,
+    "source": "bot",
+    "event": "action",
+    "value": 0
+  },
+  {
+    "time": 10.287575,
+    "source": "bot",
+    "event": "action",
+    "value": 2
+  },
+  {
+    "time": 10.337705,
+    "source": "bot",
+    "event": "action",
+    "value": 3
+  },
+  {
+    "time": 10.387318,
+    "source": "bot",
+    "event": "action",
+    "value": 3
+  },
+  {
+    "time": 10.439851,
+    "source": "bot",
+    "event": "action",
+    "value": 0
+  },
+  {
+    "time": 10.490454,
+    "source": "bot",
+    "event": "action",
+    "value": 1
+  },
+  {
+    "time": 10.540583,
+    "source": "bot",
+    "event": "action",
+    "value": 4
+  },
+  {
+    "time": 10.593344,
+    "source": "bot",
+    "event": "action",
+    "value": 4
+  },
+  {
+    "time": 10.644005,
+    "source": "bot",
+    "event": "action",
+    "value": 4
+  },
+  {
+    "time": 10.690119,
+    "source": "bot",
+    "event": "action",
+    "value": 0
+  },
+  {
+    "time": 10.738724,
+    "source": "bot",
+    "event": "action",
+    "value": 5
+  },
+  {
+    "time": 10.789408,
+    "source": "bot",
+    "event": "action",
+    "value": 3
+  },
+  {
+    "time": 10.838027,
+    "source": "bot",
+    "event": "action",
+    "value": 4
+  },
+  {
+    "time": 10.888165,
+    "source": "bot",
+    "event": "action",
+    "value": 4
+  },
+  {
+    "time": 10.937285,
+    "source": "bot",
+    "event": "action",
+    "value": 5
+  },
+  {
+    "time": 10.990283,
+    "source": "bot",
+    "event": "action",
+    "value": 0
+  },
+  {
+    "time": 11.042462,
+    "source": "bot",
+    "event": "action",
+    "value": 1
+  },
+  {
+    "time": 11.088239,
+    "source": "bot",
+    "event": "action",
+    "value": 2
+  },
+  {
+    "time": 11.138537,
+    "source": "bot",
+    "event": "action",
+    "value": 3
+  },
+  {
+    "time": 11.188662,
+    "source": "bot",
+    "event": "action",
+    "value": 2
+  },
+  {
+    "time": 11.236798,
+    "source": "bot",
+    "event": "action",
+    "value": 0
+  },
+  {
+    "time": 11.289613,
+    "source": "bot",
+    "event": "action",
+    "value": 5
+  },
+  {
+    "time": 11.339866,
+    "source": "bot",
+    "event": "action",
+    "value": 0
+  },
+  {
+    "time": 11.389011,
+    "source": "bot",
+    "event": "action",
+    "value": 0
+  },
+  {
+    "time": 11.438627,
+    "source": "bot",
+    "event": "action",
+    "value": 3
+  },
+  {
+    "time": 11.498337,
+    "source": "bot",
+    "event": "action",
+    "value": 1
+  },
+  {
+    "time": 11.556436,
+    "source": "bot",
+    "event": "action",
+    "value": 5
+  },
+  {
+    "time": 11.609621,
+    "source": "bot",
+    "event": "action",
+    "value": 1
+  },
+  {
+    "time": 11.661034,
+    "source": "bot",
+    "event": "action",
+    "value": 3
+  },
+  {
+    "time": 11.71219,
+    "source": "bot",
+    "event": "action",
+    "value": 5
+  },
+  {
+    "time": 11.763811,
+    "source": "bot",
+    "event": "action",
+    "value": 2
+  },
+  {
+    "time": 11.81509,
+    "source": "bot",
+    "event": "action",
+    "value": 0
+  },
+  {
+    "time": 11.868722,
+    "source": "bot",
+    "event": "action",
+    "value": 0
+  },
+  {
+    "time": 11.918341,
+    "source": "bot",
+    "event": "action",
+    "value": 3
+  },
+  {
+    "time": 11.96898,
+    "source": "bot",
+    "event": "action",
+    "value": 1
+  },
+  {
+    "time": 12.019586,
+    "source": "bot",
+    "event": "action",
+    "value": 2
+  },
+  {
+    "time": 12.069235,
+    "source": "bot",
+    "event": "action",
+    "value": 0
+  },
+  {
+    "time": 12.11695,
+    "source": "bot",
+    "event": "action",
+    "value": 1
+  },
+  {
+    "time": 12.168142,
+    "source": "bot",
+    "event": "action",
+    "value": 1
+  },
+  {
+    "time": 12.220291,
+    "source": "bot",
+    "event": "action",
+    "value": 0
+  },
+  {
+    "time": 12.270488,
+    "source": "bot",
+    "event": "action",
+    "value": 2
+  },
+  {
+    "time": 12.320087,
+    "source": "bot",
+    "event": "action",
+    "value": 5
+  },
+  {
+    "time": 12.372859,
+    "source": "bot",
+    "event": "action",
+    "value": 3
+  },
+  {
+    "time": 12.425087,
+    "source": "bot",
+    "event": "action",
+    "value": 1
+  },
+  {
+    "time": 12.476713,
+    "source": "bot",
+    "event": "action",
+    "value": 2
+  },
+  {
+    "time": 12.528707,
+    "source": "bot",
+    "event": "action",
+    "value": 5
+  },
+  {
+    "time": 12.583922,
+    "source": "bot",
+    "event": "action",
+    "value": 2
+  },
+  {
+    "time": 12.635052,
+    "source": "bot",
+    "event": "action",
+    "value": 0
+  },
+  {
+    "time": 12.685344,
+    "source": "bot",
+    "event": "action",
+    "value": 4
+  },
+  {
+    "time": 12.736066,
+    "source": "bot",
+    "event": "action",
+    "value": 2
+  },
+  {
+    "time": 12.784628,
+    "source": "bot",
+    "event": "action",
+    "value": 4
+  },
+  {
+    "time": 12.836241,
+    "source": "bot",
+    "event": "action",
+    "value": 2
+  },
+  {
+    "time": 12.885954,
+    "source": "bot",
+    "event": "action",
+    "value": 5
+  },
+  {
+    "time": 12.939613,
+    "source": "bot",
+    "event": "action",
+    "value": 2
+  },
+  {
+    "time": 12.988744,
+    "source": "bot",
+    "event": "action",
+    "value": 5
+  },
+  {
+    "time": 13.04339,
+    "source": "bot",
+    "event": "action",
+    "value": 3
+  },
+  {
+    "time": 13.093262,
+    "source": "bot",
+    "event": "action",
+    "value": 5
+  },
+  {
+    "time": 13.143481,
+    "source": "bot",
+    "event": "action",
+    "value": 4
+  },
+  {
+    "time": 13.193097,
+    "source": "bot",
+    "event": "action",
+    "value": 4
+  },
+  {
+    "time": 13.241754,
+    "source": "bot",
+    "event": "action",
+    "value": 0
+  },
+  {
+    "time": 13.293024,
+    "source": "bot",
+    "event": "action",
+    "value": 2
+  },
+  {
+    "time": 13.341689,
+    "source": "bot",
+    "event": "action",
+    "value": 0
+  },
+  {
+    "time": 13.391489,
+    "source": "bot",
+    "event": "action",
+    "value": 0
+  },
+  {
+    "time": 13.440085,
+    "source": "bot",
+    "event": "action",
+    "value": 5
+  },
+  {
+    "time": 13.490295,
+    "source": "bot",
+    "event": "action",
+    "value": 1
+  },
+  {
+    "time": 13.541962,
+    "source": "bot",
+    "event": "action",
+    "value": 0
+  },
+  {
+    "time": 13.592456,
+    "source": "bot",
+    "event": "action",
+    "value": 2
+  },
+  {
+    "time": 13.642627,
+    "source": "bot",
+    "event": "action",
+    "value": 4
+  },
+  {
+    "time": 13.691142,
+    "source": "bot",
+    "event": "action",
+    "value": 3
+  },
+  {
+    "time": 13.741278,
+    "source": "bot",
+    "event": "action",
+    "value": 1
+  },
+  {
+    "time": 13.790947,
+    "source": "bot",
+    "event": "action",
+    "value": 0
+  },
+  {
+    "time": 13.840579,
+    "source": "bot",
+    "event": "action",
+    "value": 1
+  },
+  {
+    "time": 13.894764,
+    "source": "bot",
+    "event": "action",
+    "value": 1
+  },
+  {
+    "time": 13.94336,
+    "source": "bot",
+    "event": "action",
+    "value": 4
+  },
+  {
+    "time": 13.99553,
+    "source": "bot",
+    "event": "action",
+    "value": 1
+  },
+  {
+    "time": 14.043888,
+    "source": "bot",
+    "event": "action",
+    "value": 3
+  },
+  {
+    "time": 14.094049,
+    "source": "bot",
+    "event": "action",
+    "value": 4
+  },
+  {
+    "time": 14.143943,
+    "source": "bot",
+    "event": "action",
+    "value": 5
+  },
+  {
+    "time": 14.196686,
+    "source": "bot",
+    "event": "action",
+    "value": 2
+  },
+  {
+    "time": 14.24832,
+    "source": "bot",
+    "event": "action",
+    "value": 5
+  },
+  {
+    "time": 14.301322,
+    "source": "bot",
+    "event": "action",
+    "value": 2
+  },
+  {
+    "time": 14.35166,
+    "source": "bot",
+    "event": "action",
+    "value": 5
+  },
+  {
+    "time": 14.404865,
+    "source": "bot",
+    "event": "action",
+    "value": 3
+  },
+  {
+    "time": 14.456024,
+    "source": "bot",
+    "event": "action",
+    "value": 5
+  },
+  {
+    "time": 14.508664,
+    "source": "bot",
+    "event": "action",
+    "value": 4
+  },
+  {
+    "time": 14.55879,
+    "source": "bot",
+    "event": "action",
+    "value": 4
+  },
+  {
+    "time": 14.610935,
+    "source": "bot",
+    "event": "action",
+    "value": 0
+  },
+  {
+    "time": 14.661639,
+    "source": "bot",
+    "event": "action",
+    "value": 5
+  },
+  {
+    "time": 14.713835,
+    "source": "bot",
+    "event": "action",
+    "value": 0
+  },
+  {
+    "time": 14.764172,
+    "source": "bot",
+    "event": "action",
+    "value": 3
+  },
+  {
+    "time": 14.816411,
+    "source": "bot",
+    "event": "action",
+    "value": 4
+  },
+  {
+    "time": 14.867166,
+    "source": "bot",
+    "event": "action",
+    "value": 5
+  },
+  {
+    "time": 14.92518,
+    "source": "bot",
+    "event": "action",
+    "value": 4
+  },
+  {
+    "time": 14.979141,
+    "source": "bot",
+    "event": "action",
+    "value": 5
+  },
+  {
+    "time": 15.032268,
+    "source": "bot",
+    "event": "action",
+    "value": 5
+  },
+  {
+    "time": 15.084397,
+    "source": "bot",
+    "event": "action",
+    "value": 1
+  },
+  {
+    "time": 15.135372,
+    "source": "bot",
+    "event": "action",
+    "value": 2
+  },
+  {
+    "time": 15.185058,
+    "source": "bot",
+    "event": "action",
+    "value": 3
+  },
+  {
+    "time": 15.233169,
+    "source": "bot",
+    "event": "action",
+    "value": 3
+  },
+  {
+    "time": 15.28284,
+    "source": "bot",
+    "event": "action",
+    "value": 4
+  },
+  {
+    "time": 15.331996,
+    "source": "bot",
+    "event": "action",
+    "value": 4
+  },
+  {
+    "time": 15.382207,
+    "source": "bot",
+    "event": "action",
+    "value": 0
+  },
+  {
+    "time": 15.433482,
+    "source": "bot",
+    "event": "action",
+    "value": 2
+  },
+  {
+    "time": 15.484133,
+    "source": "bot",
+    "event": "action",
+    "value": 5
+  },
+  {
+    "time": 15.534562,
+    "source": "bot",
+    "event": "action",
+    "value": 4
+  },
+  {
+    "time": 15.603815,
+    "source": "bot",
+    "event": "action",
+    "value": 3
+  },
+  {
+    "time": 15.669118,
+    "source": "bot",
+    "event": "action",
+    "value": 2
+  },
+  {
+    "time": 15.721758,
+    "source": "bot",
+    "event": "action",
+    "value": 0
+  },
+  {
+    "time": 15.77191,
+    "source": "bot",
+    "event": "action",
+    "value": 1
+  },
+  {
+    "time": 15.821583,
+    "source": "bot",
+    "event": "action",
+    "value": 3
+  },
+  {
+    "time": 15.872274,
+    "source": "bot",
+    "event": "action",
+    "value": 5
+  },
+  {
+    "time": 15.925977,
+    "source": "bot",
+    "event": "action",
+    "value": 0
+  },
+  {
+    "time": 15.976628,
+    "source": "bot",
+    "event": "action",
+    "value": 5
+  },
+  {
+    "time": 16.028159,
+    "source": "bot",
+    "event": "action",
+    "value": 0
+  },
+  {
+    "time": 16.07859,
+    "source": "bot",
+    "event": "action",
+    "value": 3
+  },
+  {
+    "time": 16.129404,
+    "source": "bot",
+    "event": "action",
+    "value": 1
+  },
+  {
+    "time": 16.178677,
+    "source": "bot",
+    "event": "action",
+    "value": 1
+  },
+  {
+    "time": 16.228756,
+    "source": "bot",
+    "event": "action",
+    "value": 4
+  },
+  {
+    "time": 16.279869,
+    "source": "bot",
+    "event": "action",
+    "value": 5
+  },
+  {
+    "time": 16.331522,
+    "source": "bot",
+    "event": "action",
+    "value": 3
+  },
+  {
+    "time": 16.380663,
+    "source": "bot",
+    "event": "action",
+    "value": 3
+  },
+  {
+    "time": 16.43129,
+    "source": "bot",
+    "event": "action",
+    "value": 3
+  },
+  {
+    "time": 16.482533,
+    "source": "bot",
+    "event": "action",
+    "value": 4
+  },
+  {
+    "time": 16.533658,
+    "source": "bot",
+    "event": "action",
+    "value": 4
+  },
+  {
+    "time": 16.583313,
+    "source": "bot",
+    "event": "action",
+    "value": 1
+  },
+  {
+    "time": 16.633948,
+    "source": "bot",
+    "event": "action",
+    "value": 2
+  },
+  {
+    "time": 16.687099,
+    "source": "bot",
+    "event": "action",
+    "value": 4
+  },
+  {
+    "time": 16.736204,
+    "source": "bot",
+    "event": "action",
+    "value": 2
+  },
+  {
+    "time": 16.784846,
+    "source": "bot",
+    "event": "action",
+    "value": 0
+  },
+  {
+    "time": 16.834956,
+    "source": "bot",
+    "event": "action",
+    "value": 3
+  },
+  {
+    "time": 16.88415,
+    "source": "bot",
+    "event": "action",
+    "value": 5
+  },
+  {
+    "time": 16.93931,
+    "source": "bot",
+    "event": "action",
+    "value": 4
+  },
+  {
+    "time": 16.987205,
+    "source": "bot",
+    "event": "action",
+    "value": 3
+  },
+  {
+    "time": 17.035902,
+    "source": "bot",
+    "event": "action",
+    "value": 1
+  },
+  {
+    "time": 17.086607,
+    "source": "bot",
+    "event": "action",
+    "value": 4
+  },
+  {
+    "time": 17.136049,
+    "source": "bot",
+    "event": "action",
+    "value": 1
+  },
+  {
+    "time": 17.190408,
+    "source": "bot",
+    "event": "action",
+    "value": 4
+  },
+  {
+    "time": 17.243083,
+    "source": "bot",
+    "event": "action",
+    "value": 4
+  },
+  {
+    "time": 17.290368,
+    "source": "bot",
+    "event": "action",
+    "value": 2
+  },
+  {
+    "time": 17.340015,
+    "source": "bot",
+    "event": "action",
+    "value": 0
+  },
+  {
+    "time": 17.392756,
+    "source": "bot",
+    "event": "action",
+    "value": 2
+  },
+  {
+    "time": 17.441388,
+    "source": "bot",
+    "event": "action",
+    "value": 3
+  },
+  {
+    "time": 17.491067,
+    "source": "bot",
+    "event": "action",
+    "value": 1
+  },
+  {
+    "time": 17.541264,
+    "source": "bot",
+    "event": "action",
+    "value": 3
+  },
+  {
+    "time": 17.594405,
+    "source": "bot",
+    "event": "action",
+    "value": 4
+  },
+  {
+    "time": 17.644513,
+    "source": "bot",
+    "event": "action",
+    "value": 4
+  },
+  {
+    "time": 17.696705,
+    "source": "bot",
+    "event": "action",
+    "value": 3
+  },
+  {
+    "time": 17.74686,
+    "source": "bot",
+    "event": "action",
+    "value": 2
+  },
+  {
+    "time": 17.798265,
+    "source": "bot",
+    "event": "action",
+    "value": 5
+  },
+  {
+    "time": 17.852452,
+    "source": "bot",
+    "event": "action",
+    "value": 1
+  },
+  {
+    "time": 17.903975,
+    "source": "bot",
+    "event": "action",
+    "value": 4
+  },
+  {
+    "time": 17.9541,
+    "source": "bot",
+    "event": "action",
+    "value": 3
+  },
+  {
+    "time": 18.005255,
+    "source": "bot",
+    "event": "action",
+    "value": 5
+  },
+  {
+    "time": 18.059852,
+    "source": "bot",
+    "event": "action",
+    "value": 0
+  },
+  {
+    "time": 18.112127,
+    "source": "bot",
+    "event": "action",
+    "value": 2
+  },
+  {
+    "time": 18.164218,
+    "source": "bot",
+    "event": "action",
+    "value": 5
+  },
+  {
+    "time": 18.218407,
+    "source": "bot",
+    "event": "action",
+    "value": 4
+  },
+  {
+    "time": 18.269559,
+    "source": "bot",
+    "event": "action",
+    "value": 4
+  },
+  {
+    "time": 18.319183,
+    "source": "bot",
+    "event": "action",
+    "value": 1
+  },
+  {
+    "time": 18.370747,
+    "source": "bot",
+    "event": "action",
+    "value": 5
+  },
+  {
+    "time": 18.42577,
+    "source": "bot",
+    "event": "action",
+    "value": 4
+  },
+  {
+    "time": 18.477952,
+    "source": "bot",
+    "event": "action",
+    "value": 3
+  },
+  {
+    "time": 18.528085,
+    "source": "bot",
+    "event": "action",
+    "value": 2
+  },
+  {
+    "time": 18.57822,
+    "source": "bot",
+    "event": "action",
+    "value": 4
+  },
+  {
+    "time": 18.628859,
+    "source": "bot",
+    "event": "action",
+    "value": 3
+  },
+  {
+    "time": 18.680156,
+    "source": "bot",
+    "event": "action",
+    "value": 4
+  },
+  {
+    "time": 18.732423,
+    "source": "bot",
+    "event": "action",
+    "value": 3
+  },
+  {
+    "time": 18.783011,
+    "source": "bot",
+    "event": "action",
+    "value": 3
+  },
+  {
+    "time": 18.83513,
+    "source": "bot",
+    "event": "action",
+    "value": 2
+  },
+  {
+    "time": 18.885785,
+    "source": "bot",
+    "event": "action",
+    "value": 5
+  },
+  {
+    "time": 18.939427,
+    "source": "bot",
+    "event": "action",
+    "value": 4
+  },
+  {
+    "time": 18.990139,
+    "source": "bot",
+    "event": "action",
+    "value": 3
+  },
+  {
+    "time": 19.042803,
+    "source": "bot",
+    "event": "action",
+    "value": 1
+  },
+  {
+    "time": 19.091483,
+    "source": "bot",
+    "event": "action",
+    "value": 2
+  },
+  {
+    "time": 19.140764,
+    "source": "bot",
+    "event": "action",
+    "value": 0
+  },
+  {
+    "time": 19.190775,
+    "source": "bot",
+    "event": "action",
+    "value": 3
+  },
+  {
+    "time": 19.246253,
+    "source": "bot",
+    "event": "action",
+    "value": 2
+  },
+  {
+    "time": 19.302461,
+    "source": "bot",
+    "event": "action",
+    "value": 2
+  },
+  {
+    "time": 19.356627,
+    "source": "bot",
+    "event": "action",
+    "value": 3
+  },
+  {
+    "time": 19.408988,
+    "source": "bot",
+    "event": "action",
+    "value": 4
+  },
+  {
+    "time": 19.462954,
+    "source": "bot",
+    "event": "action",
+    "value": 1
+  },
+  {
+    "time": 19.530663,
+    "source": "bot",
+    "event": "action",
+    "value": 4
+  },
+  {
+    "time": 19.591042,
+    "source": "bot",
+    "event": "action",
+    "value": 2
+  },
+  {
+    "time": 19.645257,
+    "source": "bot",
+    "event": "action",
+    "value": 5
+  },
+  {
+    "time": 19.699765,
+    "source": "bot",
+    "event": "action",
+    "value": 1
+  },
+  {
+    "time": 19.750884,
+    "source": "bot",
+    "event": "action",
+    "value": 4
+  },
+  {
+    "time": 19.802506,
+    "source": "bot",
+    "event": "action",
+    "value": 5
+  },
+  {
+    "time": 19.854288,
+    "source": "bot",
+    "event": "action",
+    "value": 2
+  },
+  {
+    "time": 19.905803,
+    "source": "bot",
+    "event": "action",
+    "value": 3
+  },
+  {
+    "time": 19.956939,
+    "source": "bot",
+    "event": "action",
+    "value": 3
+  },
+  {
+    "time": 20.007062,
+    "source": "bot",
+    "event": "action",
+    "value": 4
+  },
+  {
+    "time": 20.058529,
+    "source": "bot",
+    "event": "action",
+    "value": 0
+  },
+  {
+    "time": 20.112421,
+    "source": "bot",
+    "event": "action",
+    "value": 2
+  },
+  {
+    "time": 20.163572,
+    "source": "bot",
+    "event": "action",
+    "value": 3
+  },
+  {
+    "time": 20.214833,
+    "source": "bot",
+    "event": "action",
+    "value": 5
+  },
+  {
+    "time": 20.270539,
+    "source": "bot",
+    "event": "action",
+    "value": 5
+  },
+  {
+    "time": 20.325735,
+    "source": "bot",
+    "event": "action",
+    "value": 1
+  },
+  {
+    "time": 20.376442,
+    "source": "bot",
+    "event": "action",
+    "value": 3
+  },
+  {
+    "time": 20.42506,
+    "source": "bot",
+    "event": "action",
+    "value": 1
+  },
+  {
+    "time": 20.476768,
+    "source": "bot",
+    "event": "action",
+    "value": 1
+  },
+  {
+    "time": 20.52592,
+    "source": "bot",
+    "event": "action",
+    "value": 5
+  },
+  {
+    "time": 20.580895,
+    "source": "bot",
+    "event": "action",
+    "value": 4
+  },
+  {
+    "time": 20.680137,
+    "source": "episode",
+    "event": "score",
+    "value": 0.0
+  }
+]

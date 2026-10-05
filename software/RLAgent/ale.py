@@ -11,6 +11,7 @@ import gymnasium as gym
 import numpy as np
 import pygame
 import torch
+import serial
 from PIL import Image
 from pynput import keyboard
 from torch import nn
@@ -33,6 +34,9 @@ EPSILON_END = 0.05
 EPSILON_DECAY = 50_000
 ACTION_COUNT = 6
 RL_ACTIONS = [0, 1, 2, 3, 4, 5]
+#Added constants for PySerial Communication
+SERIAL_PORT = "COM3"    #May be Com5     
+SERIAL_BAUD = 115200
 
 
 class DQN(nn.Module):
@@ -121,10 +125,6 @@ def update_game_display(observation, score, attempt, display, font):
     display.blit(score_text, (12, panel_y + 8))
     display.blit(attempt_text, (12, panel_y + 42))
     pygame.display.flip()
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            stop_requested.set()
-
 
 def optimize_model(policy_net, target_net, replay_buffer, optimizer):
     if len(replay_buffer) < BATCH_SIZE:
@@ -212,10 +212,112 @@ def on_release(key):
         stop_requested.set()
         return False
 
+#Test code to see if all buttons are respinding correctly
+# def test_controller(controller):
+#     print("\n--- NES CONTROLLER TEST ---")
+#     print("Press buttons on the controller.")
+#     print("Press ESC to exit.\n")
+
+#     running = True
+
+#     while running:
+#         for event in pygame.event.get():
+
+#             if event.type == pygame.QUIT:
+#                 running = False
+
+#             elif event.type == pygame.JOYBUTTONDOWN:
+#                 print(f"BUTTON DOWN: {event.button}")
+
+#             elif event.type == pygame.JOYBUTTONUP:
+#                 print(f"BUTTON UP: {event.button}")
+
+#             elif event.type == pygame.JOYAXISMOTION:
+#                 print(
+#                     f"AXIS {event.axis}: "
+#                     f"{event.value:.2f}"
+#                 )
+
+#             elif event.type == pygame.KEYDOWN:
+#                 if event.key == pygame.K_ESCAPE:
+#                     running = False
+
+#         sleep(0.01)
+
+def get_controller_action():
+    for event in pygame.event.get():
+
+        if event.type == pygame.QUIT:
+            stop_requested.set()
+            return None
+
+        if event.type == pygame.JOYBUTTONDOWN:
+            print(f"Controller button: {event.button}")
+
+            if event.button == 1:       # A
+                return 4
+            elif event.button == 2:     # B
+                return 5
+
+        if event.type == pygame.JOYAXISMOTION:
+
+            if event.axis == 0:
+                if event.value > 0.5:
+                    return 1       # Right
+                elif event.value < -0.5:
+                    return 2       # Left
+
+            elif event.axis == 1:
+                if event.value > 0.5:
+                    return 3       # Down
+
+    return 0
+
+###################Function that sends actions to arduino 
+# def send_action_to_arduino(arduino, action):
+#     commands = {
+#         0: "N",
+#         1: "R",
+#         2: "L",
+#         3: "D",
+#         4: "A",
+#         5: "B",
+#     }
+
+#     command = commands[action]
+
+#     arduino.write((command + "\n").encode("utf-8"))
+
+#     print(f"Arduino command: {command}")
+
 try:
-    listener = keyboard.Listener(on_press=on_press, on_release=on_release)
-    listener.start()
+    #Comment IN for controller control 
+    # listener = keyboard.Listener(on_press=on_press, on_release=on_release)
+    # listener.start()
+
     pygame.init()
+
+    #############Opens connection to arduino and sleep() gives arduino time to reset and be ready for commands
+    #arduino = serial.Serial(SERIAL_PORT, SERIAL_BAUD, timeout=1)
+    #sleep(2)
+
+    #Code for controller input
+    pygame.joystick.init()
+    if pygame.joystick.get_count() == 0:
+        raise RuntimeError("No controller detected!")
+
+    controller = pygame.joystick.Joystick(0)
+    controller.init()
+
+    # Call the test function to check controller input
+    # test_controller(controller) 
+
+    print(f"Controller detected: {controller.get_name()}")
+
+    # Added these 2 lines to test controller diagnostics
+    print(f"Buttons: {controller.get_numbuttons()}")
+    print(f"Axes: {controller.get_numaxes()}")
+
     hud_font = pygame.font.Font(None, 30)
     policy_net = DQN(ACTION_COUNT).to(DEVICE)
     target_net = DQN(ACTION_COUNT).to(DEVICE)
@@ -253,16 +355,21 @@ try:
         update_game_display(obs, episode_score, episode_number, display, hud_font)
 
         while not (terminated or truncated or stop_requested.is_set()):
-            try:
-                action = manual_actions.get(timeout=1 / 60)
-                record_input("manual", "action", int(action))
-            except Empty:
-                #action = select_action(policy_net, state, RL_ACTIONS, epsilon)
-                #record_input("bot", "action", int(action))
+            action = get_controller_action()
 
-                #obs, reward, terminated, truncated, info = step_environment(env, action)
-                action = 0
-                record_input("gravity", "action", action)
+            if action is None:
+                break
+
+            if action != 0:
+                print(f"CONTROLLER ACTION: {action}")
+                record_input("controller", "action", action)
+
+                #Calling function above
+                #send_action_to_arduino(arduino, action)
+
+            #Comment out for controller control
+            action = select_action(policy_net, state, RL_ACTIONS, epsilon)
+            record_input("bot", "action", int(action))
 
             obs, reward, terminated, truncated, info = step_environment(env, action)
             next_state = preprocess(obs)
@@ -306,9 +413,11 @@ try:
     save_checkpoint(policy_net, optimizer, episode_number, best_score, epsilon, total_steps)
 finally:
     stop_requested.set()
-    if "listener" in locals():
-        listener.stop()
-        listener.join()
+    #Comment In for controller Control
+    # if "listener" in locals():
+    #     listener.stop()
+    #     listener.join()
+
     env.close()
     pygame.quit()
     with open("tetris_input_log.json", "w", encoding="utf-8") as log_file:
