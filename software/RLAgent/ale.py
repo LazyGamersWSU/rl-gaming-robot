@@ -213,36 +213,36 @@ def on_release(key):
         return False
 
 #Test code to see if all buttons are respinding correctly
-# def test_controller(controller):
-#     print("\n--- NES CONTROLLER TEST ---")
-#     print("Press buttons on the controller.")
-#     print("Press ESC to exit.\n")
+def test_controller(controller):
+    print("\n--- NES CONTROLLER TEST ---")
+    print("Press buttons on the controller.")
+    print("Press ESC to exit.\n")
 
-#     running = True
+    running = True
 
-#     while running:
-#         for event in pygame.event.get():
+    while running:
+        for event in pygame.event.get():
 
-#             if event.type == pygame.QUIT:
-#                 running = False
+            if event.type == pygame.QUIT:
+                running = False
 
-#             elif event.type == pygame.JOYBUTTONDOWN:
-#                 print(f"BUTTON DOWN: {event.button}")
+            elif event.type == pygame.JOYBUTTONDOWN:
+                print(f"BUTTON DOWN: {event.button}")
 
-#             elif event.type == pygame.JOYBUTTONUP:
-#                 print(f"BUTTON UP: {event.button}")
+            elif event.type == pygame.JOYBUTTONUP:
+                print(f"BUTTON UP: {event.button}")
 
-#             elif event.type == pygame.JOYAXISMOTION:
-#                 print(
-#                     f"AXIS {event.axis}: "
-#                     f"{event.value:.2f}"
-#                 )
+            elif event.type == pygame.JOYAXISMOTION:
+                print(
+                    f"AXIS {event.axis}: "
+                    f"{event.value:.2f}"
+                )
 
-#             elif event.type == pygame.KEYDOWN:
-#                 if event.key == pygame.K_ESCAPE:
-#                     running = False
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    running = False
 
-#         sleep(0.01)
+        sleep(0.01)
 
 def get_controller_action():
     for event in pygame.event.get():
@@ -292,8 +292,8 @@ def get_controller_action():
 
 try:
     #Comment IN for controller control 
-    # listener = keyboard.Listener(on_press=on_press, on_release=on_release)
-    # listener.start()
+    listener = keyboard.Listener(on_press=on_press, on_release=on_release)
+    listener.start()
 
     pygame.init()
 
@@ -310,7 +310,7 @@ try:
     controller.init()
 
     # Call the test function to check controller input
-    # test_controller(controller) 
+    test_controller(controller) 
 
     print(f"Controller detected: {controller.get_name()}")
 
@@ -368,8 +368,8 @@ try:
                 #send_action_to_arduino(arduino, action)
 
             #Comment out for controller control
-            action = select_action(policy_net, state, RL_ACTIONS, epsilon)
-            record_input("bot", "action", int(action))
+            # action = select_action(policy_net, state, RL_ACTIONS, epsilon)
+            # record_input("bot", "action", int(action))
 
             obs, reward, terminated, truncated, info = step_environment(env, action)
             next_state = preprocess(obs)
@@ -414,9 +414,9 @@ try:
 finally:
     stop_requested.set()
     #Comment In for controller Control
-    # if "listener" in locals():
-    #     listener.stop()
-    #     listener.join()
+    if "listener" in locals():
+        listener.stop()
+        listener.join()
 
     env.close()
     pygame.quit()
