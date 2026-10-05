@@ -451,6 +451,33 @@ def on_release(key):
         space_held = False
 
 
+def get_controller_action():
+    for event in pygame.event.get():
+ 
+        if event.type == pygame.QUIT:
+            stop_requested.set()
+            return None
+ 
+        if event.type == pygame.JOYBUTTONDOWN:
+            print(f"Controller button: {event.button}")
+ 
+            if event.button == 1:       # A
+                return 4
+ 
+        if event.type == pygame.JOYAXISMOTION:
+ 
+            if event.axis == 0:
+                if event.value > 0.5:
+                    return 1       # Right
+                elif event.value < -0.5:
+                    return 2       # Left
+ 
+            elif event.axis == 1:
+                if event.value > 0.5:
+                    return 3       # Down
+
+    return 0
+    
 try:
 
     #Starts the keyboard input listener
@@ -459,6 +486,20 @@ try:
 
     #Starts up the Tetris window.
     pygame.init()
+    
+    pygame.joystick.init()
+    if pygame.joystick.get_count() == 0:
+        raise RuntimeError("No controller detected!")
+ 
+    controller = pygame.joystick.Joystick(0)
+    controller.init()
+ 
+    print(f"Controller detected: {controller.get_name()}")
+ 
+    # Added these 2 lines to test controller diagnostics
+    print(f"Buttons: {controller.get_numbuttons()}")
+    print(f"Axes: {controller.get_numaxes()}")
+    
     hud_font = pygame.font.Font(None, 30)
 
     #Wake up the Gamer.
@@ -544,10 +585,15 @@ try:
                 action = forward(policy_net, state, Choice_IDs, button_mash)
                 record_input("Gamer", "action", int(action))
             else:
-                try:
                     #Check for keyboard inputs
-                    action = keyboard_controls.get(timeout=1 / 60)
-                    record_input("manual", "action", int(action))
+                    action = get_controller_action()
+                
+             if action is None:
+                break
+ 
+            if action != 0:
+                print(f"CONTROLLER ACTION: {action}")
+                record_input("controller", "action", action)
                 except Empty:
                     #Have blocks move down consistently to simulate gravity.
                     action = 0
