@@ -20,7 +20,7 @@ from torch.optim import Adam
 gym.register_envs(ale_py)
 
 #This build the Tetris enviroment and creates the screen through a pixel array.
-env = gym.make('ALE/Tetris-v5', render_mode='rgb_array')
+env = gym.make('ALE/Tetris-v5', render_mode='rgb_array', frameskip=1)
 
 #Picks what part that processes the training.
 Brain = torch.device("cpu")
@@ -450,7 +450,6 @@ def on_release(key):
     if key == keyboard.Key.space:
         space_held = False
 
-
 def get_controller_action():
     for event in pygame.event.get():
  
@@ -463,6 +462,9 @@ def get_controller_action():
  
             if event.button == 1:       # A
                 return 4
+            elif event.button == 2:     # B
+                stop_requested.set()
+                return None
  
         if event.type == pygame.JOYAXISMOTION:
  
@@ -475,9 +477,9 @@ def get_controller_action():
             elif event.axis == 1:
                 if event.value > 0.5:
                     return 3       # Down
-
+ 
     return 0
-    
+
 try:
 
     #Starts the keyboard input listener
@@ -499,7 +501,7 @@ try:
     # Added these 2 lines to test controller diagnostics
     print(f"Buttons: {controller.get_numbuttons()}")
     print(f"Axes: {controller.get_numaxes()}")
-    
+
     hud_font = pygame.font.Font(None, 30)
 
     #Wake up the Gamer.
@@ -585,19 +587,14 @@ try:
                 action = forward(policy_net, state, Choice_IDs, button_mash)
                 record_input("Gamer", "action", int(action))
             else:
-                    #Check for keyboard inputs
-                    action = get_controller_action()
-                
-             if action is None:
-                break
- 
-            if action != 0:
-                print(f"CONTROLLER ACTION: {action}")
-                record_input("controller", "action", action)
-                except Empty:
-                    #Have blocks move down consistently to simulate gravity.
-                    action = 0
-                    record_input("gravity", "action", action)
+                action = get_controller_action()
+
+                if action is None:
+                    break
+
+                if action != 0:
+                    print(f"CONTROLLER ACTION: {action}")
+                    record_input("controller", "action", action)
 
             #Apply the choice to the game and produce the next game image.
             obs, reward, terminated, truncated, info = step_environment(env, action)
