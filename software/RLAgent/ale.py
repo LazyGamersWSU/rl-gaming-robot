@@ -474,8 +474,7 @@ def get_controller_action():
                 elif event.value < -0.5:
                     return 2       # Left
  
-            elif event.axis == 1:
-                if event.value > 0.5:
+            elif event.axis == 1 and event.value > 0.5:
                     return 3       # Down
  
     return 0
