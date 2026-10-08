@@ -32,25 +32,25 @@ void pulse(char command)
 {
   switch (command)
   {
-    case '0':
+    case '1':
       Serial.println("Pulsing A...");
       digitalWrite(SOLENOID_A, HIGH);
       delay(100);
       digitalWrite(SOLENOID_A, LOW);
       break;
-    case '1':
+    case '2':
       Serial.println("Pulsing Y...");
       digitalWrite(SOLENOID_Y, HIGH);
       delay(100);
       digitalWrite(SOLENOID_Y, LOW);
       break;
-    case '2':
+    case '3':
       Serial.println("Pulsing RIGHT (D-PAD)...");
       digitalWrite(SOLENOID_RIGHT, HIGH);
       delay(100);
       digitalWrite(SOLENOID_RIGHT, LOW);
       break;
-    case '3':
+    case '4':
       Serial.println("Pulsing LEFT (D-PAD)...");
       digitalWrite(SOLENOID_LEFT, HIGH);
       delay(100);
