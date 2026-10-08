@@ -20,7 +20,7 @@ from torch.optim import Adam
 gym.register_envs(ale_py)
 
 #This build the Tetris enviroment and creates the screen through a pixel array.
-env = gym.make('ALE/Tetris-v5', render_mode='rgb_array', frameskip=1)
+env = gym.make('ALE/Tetris-v5', render_mode='rgb_array', frameskip=4)
 
 #Picks what part that processes the training.
 Brain = torch.device("cpu")
@@ -54,6 +54,9 @@ Button_Mash_End = 0.05
 
 #The max amount of steps until no more goofing is allowed.
 Mash_Decay = 50_000
+
+#Simulates latency between action selection and then execution
+Dummy_latency = .1
 
 #The amount of choices the agent has.
 Choices = 5
@@ -460,9 +463,9 @@ def get_controller_action():
         if event.type == pygame.JOYBUTTONDOWN:
             print(f"Controller button: {event.button}")
  
-            if event.button == 1:       # A
+            if event.button == 3:       # Y
                 return 4
-            elif event.button == 2:     # B
+            elif event.button == 0:     # X
                 stop_requested.set()
                 return None
  
@@ -585,6 +588,7 @@ try:
             if agent_mode.is_set():
                 action = forward(policy_net, state, Choice_IDs, button_mash)
                 record_input("Gamer", "action", int(action))
+                sleep(Dummy_latency)
             else:
                 action = get_controller_action()
 
