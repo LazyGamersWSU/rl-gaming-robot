@@ -4,7 +4,7 @@ The electronics system controls and powers the solenoid actuators used to physic
 
 ## Subsystems
 
-- [PCB](pcb/README.md) — Solenoid driver PCB design and fabrication files
+- [PCB](pcb/) — Solenoid driver PCB design and fabrication files with revision history
 - [Power](power/power_budget.md) — Battery and system power requirements
 - [Wiring](wiring/) — Electrical wiring and connections (visual)
 
