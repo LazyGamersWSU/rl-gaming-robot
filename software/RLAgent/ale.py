@@ -11,6 +11,7 @@ import gymnasium as gym
 import numpy as np
 import pygame
 import torch
+import serial
 from PIL import Image
 from pynput import keyboard
 from torch import nn
@@ -22,8 +23,22 @@ gym.register_envs(ale_py)
 #This build the Tetris enviroment and creates the screen through a pixel array.
 env = gym.make('ALE/Tetris-v5', render_mode='rgb_array', frameskip=4)
 
-#Picks what part that processes the training.
-Brain = torch.device("cpu")
+DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+MODEL_PATH = Path("tetris_dqn_rotations.pt")
+TRAINING_EPISODES = 100
+BATCH_SIZE = 32
+REPLAY_CAPACITY = 20_000
+GAMMA = 0.99
+LEARNING_RATE = 1e-4
+TARGET_UPDATE_STEPS = 1_000
+EPSILON_START = 1.0
+EPSILON_END = 0.05
+EPSILON_DECAY = 50_000
+ACTION_COUNT = 6
+RL_ACTIONS = [0, 1, 2, 3, 4, 5]
+#Added constants for PySerial Communication
+SERIAL_PORT = "COM3"    #May be Com5     
+SERIAL_BAUD = 115200
 
 #Stores the path to the training data file, so that the file can be updated with new progress.
 Memory_Path = Path("tetris_dqn_rotations.pt")
@@ -249,14 +264,6 @@ def computer_make_game(observation, score, attempt, agent_playing, display, font
     #Make everything visible to humans.
     pygame.display.flip()
 
-    #Keep it going until the game is told to quit.
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            stop_requested.set()
-
-#Time to for Gamer to reflect on his actions.
-def learning_time(policy_net, target_net, replay_buffer, optimizer):
-
     #Check to see if we have made enough choices to learn from.
     if len(replay_buffer) < Update_Size:
         return None
@@ -446,60 +453,108 @@ def on_press(key):
         stop_requested.set()
         return False
 
-#Signifies that the spacebar is no longer being held down.
-def on_release(key):
-    global space_held
+#Test code to see if all buttons are respinding correctly
+def test_controller(controller):
+    print("\n--- NES CONTROLLER TEST ---")
+    print("Press buttons on the controller.")
+    print("Press ESC to exit.\n")
 
-    if key == keyboard.Key.space:
-        space_held = False
+    running = True
+
+    while running:
+        for event in pygame.event.get():
+
+            if event.type == pygame.QUIT:
+                running = False
+
+            elif event.type == pygame.JOYBUTTONDOWN:
+                print(f"BUTTON DOWN: {event.button}")
+
+            elif event.type == pygame.JOYBUTTONUP:
+                print(f"BUTTON UP: {event.button}")
+
+            elif event.type == pygame.JOYAXISMOTION:
+                print(
+                    f"AXIS {event.axis}: "
+                    f"{event.value:.2f}"
+                )
+
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    running = False
+
+        sleep(0.01)
 
 def get_controller_action():
     for event in pygame.event.get():
- 
+
         if event.type == pygame.QUIT:
             stop_requested.set()
             return None
- 
+
         if event.type == pygame.JOYBUTTONDOWN:
             print(f"Controller button: {event.button}")
- 
-            if event.button == 3:       # Y
+
+            if event.button == 1:       # A
                 return 4
-            elif event.button == 0:     # X
-                stop_requested.set()
-                return None
- 
+            elif event.button == 2:     # B
+                return 5
+
         if event.type == pygame.JOYAXISMOTION:
- 
+
             if event.axis == 0:
                 if event.value > 0.5:
                     return 1       # Right
                 elif event.value < -0.5:
                     return 2       # Left
- 
-            elif event.axis == 1 and event.value > 0.5:
+
+            elif event.axis == 1:
+                if event.value > 0.5:
                     return 3       # Down
- 
+
     return 0
 
-try:
+###################Function that sends actions to arduino 
+# def send_action_to_arduino(arduino, action):
+#     commands = {
+#         0: "N",
+#         1: "R",
+#         2: "L",
+#         3: "D",
+#         4: "A",
+#         5: "B",
+#     }
 
-    #Starts the keyboard input listener
+#     command = commands[action]
+
+#     arduino.write((command + "\n").encode("utf-8"))
+
+#     print(f"Arduino command: {command}")
+
+try:
+    #Comment IN for controller control 
     listener = keyboard.Listener(on_press=on_press, on_release=on_release)
     listener.start()
 
-    #Starts up the Tetris window.
     pygame.init()
-    
+
+    #############Opens connection to arduino and sleep() gives arduino time to reset and be ready for commands
+    #arduino = serial.Serial(SERIAL_PORT, SERIAL_BAUD, timeout=1)
+    #sleep(2)
+
+    #Code for controller input
     pygame.joystick.init()
     if pygame.joystick.get_count() == 0:
         raise RuntimeError("No controller detected!")
- 
+
     controller = pygame.joystick.Joystick(0)
     controller.init()
- 
+
+    # Call the test function to check controller input
+    test_controller(controller) 
+
     print(f"Controller detected: {controller.get_name()}")
- 
+
     # Added these 2 lines to test controller diagnostics
     print(f"Buttons: {controller.get_numbuttons()}")
     print(f"Axes: {controller.get_numaxes()}")
@@ -585,19 +640,21 @@ try:
 
         #Listen for inputs as long as the game is active
         while not (terminated or truncated or stop_requested.is_set()):
-            if agent_mode.is_set():
-                action = forward(policy_net, state, Choice_IDs, button_mash)
-                record_input("Gamer", "action", int(action))
-                sleep(Dummy_latency)
-            else:
-                action = get_controller_action()
+            action = get_controller_action()
 
-                if action is None:
-                    break
+            if action is None:
+                break
 
-                if action != 0:
-                    print(f"CONTROLLER ACTION: {action}")
-                    record_input("controller", "action", action)
+            if action != 0:
+                print(f"CONTROLLER ACTION: {action}")
+                record_input("controller", "action", action)
+
+                #Calling function above
+                #send_action_to_arduino(arduino, action)
+
+            #Comment out for controller control
+            # action = select_action(policy_net, state, RL_ACTIONS, epsilon)
+            # record_input("bot", "action", int(action))
 
             #Apply the choice to the game and produce the next game image.
             obs, reward, terminated, truncated, info = step_environment(env, action)
