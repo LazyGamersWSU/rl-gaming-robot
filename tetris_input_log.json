@@ -1,14 +1,1 @@
-[
-  {
-    "time": 45.380097,
-    "source": "keyboard",
-    "event": "press",
-    "value": "Key.ctrl_l"
-  },
-  {
-    "time": 45.74929,
-    "source": "keyboard",
-    "event": "press",
-    "value": "\u0003"
-  }
-]
+[]
