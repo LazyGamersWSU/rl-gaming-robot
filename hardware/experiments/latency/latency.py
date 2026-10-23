@@ -1,7 +1,8 @@
 
-import serial
 import time
+
 import pygame
+import serial
 
 SERIAL_PORT = "COM3"
 BAUD_RATE = 115200
