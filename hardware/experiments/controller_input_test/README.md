@@ -1,4 +1,6 @@
-## Experiment: Controller Input Mapping
+# Controller Input Mapping Experiment
+
+## Overview
 
 The purpose of this experiment is to record what python sees when a button is pressed on the USB SNES controller.
 
