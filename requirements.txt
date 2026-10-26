@@ -6,3 +6,4 @@ ale-py
 scipy
 pyserial
 ruff
+pytest
