@@ -59,6 +59,8 @@ Training saves `tetris_afterstate.pt` every 20 episodes and on exit. It holds th
 network, target network, optimizer state and total pieces played, so training resumes
 where it left off (with a lower starting epsilon).
 
+This file is ignored from the repository. You will have your own local copy of the model's checkpoint, and all trainig will start from scratch.
+
 ## Key settings
 
 In `afterstate.py`: `GAMMA`, `LEARNING_RATE`, `BATCH_SIZE`, `BUFFER_SIZE`,
