@@ -6,7 +6,6 @@ Started from main.py (menu option 2). Needs a saved checkpoint.
 import random
 
 import numpy as np
-
 from placement import ExitRequested, candidates, featurize
 
 WATCH_FPS = 60  # emulator frames shown per second. 60 = real time; lower = slow motion

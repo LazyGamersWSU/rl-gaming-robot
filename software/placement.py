@@ -18,6 +18,7 @@ send to the Arduino; the real button press is what advances the emulator.
 """
 
 import random
+
 import ale_py
 import gymnasium as gym
 import numpy as np
@@ -600,4 +601,3 @@ class StepBuffer:
 
 class ExitRequested(Exception):
     """Raised from an env.on_frame hook to abort env.play() when the user exits."""
-    

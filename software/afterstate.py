@@ -15,9 +15,7 @@ from pathlib import Path
 import numpy as np
 import pygame
 import torch
-import torch.nn as nn
 import torch.nn.functional as F
-
 from main import Display
 from placement import (
     MAX_CANDS,
@@ -27,6 +25,7 @@ from placement import (
     candidates,
     featurize,
 )
+from torch import nn
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")  # GPU if present
 CHECKPOINT = Path("tetris_afterstate.pt")  # where progress is saved

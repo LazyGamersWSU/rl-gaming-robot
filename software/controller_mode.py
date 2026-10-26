@@ -10,8 +10,7 @@ import time
 
 import numpy as np
 import pygame
-
-from placement import NOOP, RIGHT, LEFT, ExitRequested, candidates, featurize
+from placement import LEFT, NOOP, RIGHT, ExitRequested, candidates, featurize
 
 FPS = 60  # emulator frames per second to hold the game to (matches a real console)
 
@@ -65,7 +64,7 @@ class ArduinoLink:
 
     def pulse(self, action):
         """Send one pulse. action: int, an emulator action (0-4)."""
-        self.port.write(f"{ARDUINO_MAP[action]}\n".encode("utf-8"))  # str -> bytes
+        self.port.write(f"{ARDUINO_MAP[action]}\n".encode())  # str -> bytes
         self.port.flush()  # send now rather than wait in a buffer
         self.log.append({"time": time.time(), "action": int(action)})
 
@@ -137,7 +136,7 @@ def play_controller(display, env, learner):
     try:
         controller = ControllerInput()
         link = ArduinoLink()
-    except Exception as exc:  # serial error, pyserial missing, no controller, ...
+    except RuntimeError as exc:  # serial error, pyserial missing, no controller, ...
         print(f"Controller mode setup failed: {exc}")
         return
 
