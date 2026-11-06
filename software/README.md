@@ -132,3 +132,23 @@ Created a test a function (test_controller), that reads the controller inputs to
 Currently the RL Agent has a Deep Q-Network that stores decisions and results into files. Pytorch sends the DQN game data and gives response to actions taken by the DQN. Ale.py houses the code to call the DQN and creates a tetris enviroment. The bot can interact with the game, winning one seems to be rare thus far. The commands for manual controls are interchangable with the bot control.
 
 Currently it does not send out USB commands, and learning is iffy to prove. Decisions are made on a frame-by-frame basis, so this may be hindering learning as it is difficult to connect individual actions like "left" to long-term rewards.
+
+### Test 4: Testing for Holes and Height
+This unit test tests the features() function, making sure that that the holes in the board are counted for and the height of the stack is correct.
+    Test code can be found [here](../tests/test_features.py)
+
+### Test 5: Testing Controller Commands
+This unit test is for the follow_controller() function and makes sure that all commands are counted for. If a command is missed it counts it and times out
+    Test code can be found [here](../tests/test_follow_controller)
+
+### Test 6: Testing Piece Recognization
+This unit test is for the normalize() function, it turns cells into a position-independent representation of the shape. It is used to identify pieces and their orientations.
+    Test code can be found [here](../tests/test_normalize.py)
+
+### Test 7: Testing Parse Board
+This unit test is for the parse_board() function, it turns a rendered board image into a boolean array representation of the board.
+    Test code can be found [here](../tests/test_parse_board.py)
+
+### Test 8: Testing Top Blob
+This unit test is for the top_blob() function, it tests to make sure the program is always returning the topmost blob of filled cells on the board. It also tests to make sure that diagonal cells are counted as connected and that a piece resting on the stack merges with it.
+    Test code can be found [here](../tests/test_top_blob.py)
