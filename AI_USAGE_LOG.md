@@ -18,6 +18,7 @@ AI was used responsibly by treating its output as a starting point rather than a
 
 ## Entry 1: Prototype 1 - SNES USB Controller Input Mapping Experiment
 
+* **Developer:** Sam Culp
 * **Date:** August 31, 2026  
 * **Tool Used:** ChatGPT  
 * **Associated Git Issue:** Test SNES USB controller input mapping  
@@ -94,6 +95,7 @@ elif axis_1 > DEADZONE:
 
 ## Entry 2: CI/CD Infrastructure - Pytest Unit Test Setup
 
+* **Developer:** Sam Culp
 * **Date:** September 8, 2026  
 * **Tool Used:** ChatGPT  
 * **Associated Git Issue:** CI/CD Infrastructure & Test Logs  
@@ -166,6 +168,7 @@ The CI workflow was also verified through a pull request, confirming that the au
 
 ## Entry 3: CI/CD Infrastructure - Ruff Linting
 
+* **Developer:** Sam Culp
 * **Date:** September 9, 2026  
 * **Tool Used:** ChatGPT  
 * **Associated Git Issue:** CI/CD Infrastructure & Test Logs  
@@ -201,7 +204,11 @@ Ruff was run again with:
 python -m ruff check .
 ```
 
+---
+
 ## Entry 4: ALE Modification
+
+* **Developer:** Trystan Donmoyer
 * **Date:** September 15, 2026  
 * **Tool Used:** VS Copilot  
 * **Associated Git Issue:** Updating ALE.py file  
@@ -275,3 +282,91 @@ def update_game_display(observation, score, attempt, display, font):
 
 ### Human Testing, Verification & Results
 The code was saved and ran once more to confirm that all previous functions remained the same, and the code added an attempt counter. The new score and attempt counter were added to the bottom of the tetris window in readable font and color.
+
+---
+
+## Entry 5: RL Agent - Afterstate Tetris Agent (Training, Watch, Controller Modes)
+
+* **Developer:** Sam Culp
+* **Date:** October 21-23
+* **Tool Used:** Claude (Anthropic)
+* **Associated Git Issue:** Implement Afterstate Learning (#27)
+* **Associated Feature Branch:** `feature/afterstate`
+
+### Key Prompts Submitted:
+
+**Controller integration and hardware**
+
+> "given these three files, we need to ensure arduino is being used to advance game state. first, see if there is a "FIRE" option instead of repeatedly holding down"
+
+> "holding the down button makes the actuators really hot so i need a different solution"
+
+> "https://ale.farama.org/env-spec/ view documentation. is there any way to quick fire so the pieces can zap to the bottom?"
+
+> "assume I make it so once we are at the correct column, we dont press down at all. we simply let it fall. would this mean we need to retrain the model?"
+
+> "assume I speed up gravity. would that require retraining?"
+
+**Understanding and rebuilding the agent**
+
+> "lets go ahead. make sure you are providing me with the code so i can write along and fully implement myself. also, quickly create a readme for this software portion before we begin"
+
+> "where is the actual learning occurring and how are screens being scored? it has played 150 games and only cleared two lines"
+
+> "So how does reward actually correlate to training? Where does loss function come in? How do we compare what we did vs what was expected"
+
+> "so is the goal to move predicted towards target? why is target in this case necesasrily what we want"
+
+> "lets create new files to separate watch mode and controller mode"
+
+### AI Output Summary & Code Generated
+
+**Part 1: Controller integration (`placement.py`, `main.py`).** I started with three existing files (`placement.py`, `afterstate.py`, `main.py`) and asked Claude to make the physical controller drive the emulator in Arduino mode. Before writing code, Claude asked a clarifying question. I answered that the Arduino presses real buttons through actuators and that the controller's USB reports should close the loop. Claude then made these changes:
+
+* Added an `input_source` hook to `PlacementEnv` in `placement.py`. When it is set, the emulator is stepped with the action the physical controller reports instead of the action the executor requested. When it is `None` (the default), the original behavior is unchanged.
+* Added a `ControllerInput` class in `main.py` that reads the pad through pygame, and a missed-pulse counter so I can see when the Arduino presses nothing the PC detects.
+* Gated all of it to menu option 3, with setup before the env is modified and teardown in a `finally` block, so training and watch modes are unaffected.
+* Delivered full replacement versions of `placement.py` and `main.py` at my request.
+
+**Fast drop investigation.** Claude explained that FIRE is the rotate button, not a drop, and wrote a probe script that tries every action in ALE's full 18-action space and reports what each does to the piece. It could not run ALE itself. I then pointed Claude at the ALE documentation. Its findings: Tetris uses a 5-action set (NOOP, FIRE, RIGHT, LEFT, DOWN), the extra full-space actions are only joystick combinations, and nothing documents a hard drop.
+
+**Actuator heat.** Holding DOWN made the actuators overheat. Claude added a `soft_drop` switch (`SOFT_DROP` in `main.py`) so DOWN is never pressed and gravity drops the piece, plus an optional duty-cycle setting (`DROP_RELEASE_FRAMES`, duty = 4 / (4 + idle frames)). It also suggested hardware-side fixes (full power briefly, then lower PWM to hold; a maximum on-time timer in the firmware). Claude confirmed that dropping DOWN presses does not require retraining, because the model only chooses a final orientation and column.
+
+**Part 2: Rebuilding the agent from the ground up.** I wanted to understand how the files work. I started with only a basic understanding of reinforcement learning, including the afterstate approach they use. Claude explained the idea and walked through rebuilding the files from the ground up in small, ordered sections. I did not alter prior implementation in any significant way. Rather, I just completely rebuilt what Claude had generated and had it give me a deep dive on every step of implementation.
+
+**Concept explained:** instead of making decisions every frame, the agent chooses one final placement per piece. The board that results from a placement is the "afterstate". A small neural network scores each candidate afterstate, and the agent plays the highest-scoring one (or a random one with probability epsilon, to explore). Learning is TD(0): each afterstate's score is moved toward `reward + discount * best next score`.
+
+**Build order, with the code provided in each step:**
+
+1. `placement.py`: reading the board from emulator pixels, finding the falling piece, piece shapes and rotations, simulating where a piece lands, and board features (holes, height, bumpiness).
+2. `placement.py`: the closed-loop executor that presses buttons and checks the screen, plus the feature vector and replay buffer.
+3. `afterstate.py`: the value network, the learner (TD target, loss, weight update), checkpoint saving, and the training loop.
+4. `main.py`: the pygame display, menu, and training mode.
+5. `watch.py` (watch mode) and `controller.py` (Arduino and USB controller mode), split into separate files at my request.
+6. A README and `requirements.txt`.
+
+Docstrings and comments were added throughout at my request so the code explains itself.
+
+### Human Testing, Verification & Results
+
+**Controller integration:** I ran controller mode on the physical hardware. That testing found the DOWN actuator overheating, the unclear mapping between the pad and the emulator, and the agent ramming pieces into the wall. The last was traced to the Arduino ID mapping once I supplied the firmware IDs. I checked Claude's statements against my files, for example when it said there is no gravity setting in them.
+
+**Agent rebuild:** after each section I ran a small check script and compared the output to the expected values Claude gave. Examples of results I confirmed:
+
+* A T piece on an empty board had 34 candidate placements, a flat I piece dropped to row 21, and a placement that completed the bottom row cleared 1 line.
+* Board features for a column with one hole matched the expected values.
+* The executor placed the first piece at the bottom-left of the board.
+* The replay buffer returned the expected array shapes, and the network produced scores of the expected shape, trained, saved and reloaded a checkpoint.
+
+Training mode then ran on the emulator. Watch mode was tested and slowed down with a frame-rate setting so the play could be followed.
+
+I also questioned the results and the explanations (what is learned vs. fixed code, where the reward and loss are applied, why the target is a valid training signal). Claude traced each answer to specific lines in the code.
+
+### Human Review & Modifications Identified
+
+* **Wrong Arduino mapping.** Claude's first controller-mode code kept an identity `ARDUINO_MAP`, which did not match my firmware IDs and made the agent press the wrong buttons. This only surfaced on the hardware, and I had to supply the real IDs.
+* **AI advice was wrong once.** Claude told me to set `SOFT_DROP = True` and described it as a hardware leftover that slowed training. Comparing against the original files showed training had used `False`, so that advice changed the behavior and was reverted. The code in all three files was otherwise confirmed to match the originals.
+* **Piece sequence is fixed.** Claude's first suggestions to vary games (random idle frames, reseeding the emulator) did not work. A test I ran showed the emulator deals the same piece sequence every game, so greedy watch mode replays identical games. A small random-move probability in watch mode was added as a workaround.
+* **Controller mode retest.** The first controller-mode version was tested on hardware as described above. The split-out `controller.py` has been written and tested on the hardware.
+* I chose to split watch and controller modes into their own files and to keep `SOFT_DROP`, serial port, and pulse timing as settings in `controller.py`.
+* On Windows, `pygame` failed to install on my Python version, so `requirements.txt` was changed to `pygame-ce`, which provides the same `pygame` module [confirm].

@@ -7,6 +7,17 @@
 *-backups/
 .history/
 
-# virtual environment
+.ruff_cache/
+.pytest_cache/
+
+# RL training output
+*.pt
+
+# Hardware run log
+input_log.json
+
+# Python / editor clutter
+__pycache__/
+tempCodeRunnerFile.py
 .venv/
 venv/
