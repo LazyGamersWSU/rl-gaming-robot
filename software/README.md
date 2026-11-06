@@ -70,3 +70,27 @@ Created a test a function (test_controller), that reads the controller inputs to
                 if event.key == pygame.K_ESCAPE:
                     running = False
         sleep(0.01)
+
+## Test 4: Testing Gameplay Memory
+This unit test just makes sure the new_memory function is correctly storing game play experience. Checking state, action, reward, next state, and game completion are all saved as one experience.
+    Test code can be found [here:](tests/test_memory.py)
+
+## Test 5: Testing LazyGamer Neural Network
+This unit test is making sure that for every for every input there is the correct number of outputs.
+    Test code can be found [here:](tests/test_lazygamer.py)
+
+## Test 6: Testing Colorblind
+This unit test is verifying that the colorblind fuction is converting the game image into the expected size, the expected type, and the correct coloring
+    Test code can be found [here:](tests/test_colorblind.py)
+
+## Test 7: Testing Action Selection
+This unit test is making sure that the only actions being performed during runtime are only actions that are allowed and is testing the behavior when 'button mashing' happens.
+    Test code can be found [here:](tests/test_foward.py)
+
+## Test 8: Testing Environment Translation
+This unit test is making sure that in the step_environment() function the program is correctly returning the commands, 'no action', 'down', 'left', 'right', and 'rotate'
+    Test code can be found [here:](tests/test_step_environment.py)
+
+## Test 9: Testing Arduino Commands
+This unit test creates a mock arduino and records inputs allowing pytest to check the output. For this test to work, ou must uncomment the 'send_action_to_arduino' function
+    Test code can be found [here:](tests/test_arduino.py)
