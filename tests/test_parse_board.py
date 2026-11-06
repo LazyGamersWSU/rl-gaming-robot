@@ -1,3 +1,6 @@
+#This unit test is for the parse_board() function, it turns a rendered board image into a 
+#boolean array representation of the board.
+
 import controller_mode 
 import main
 import placement 

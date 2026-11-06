@@ -1,3 +1,6 @@
+#This unit test is for the follow_controller() function and makes sure that all commands are counted for. If a command is missed it
+#counts it and times out
+
 import controller_mode 
 import main
 import placement 
